@@ -42,6 +42,7 @@
 import { VueEditor } from "vue2-editor";
 export default {
   props: ["note", "tags"],
+  
   data() {
     return {
       mynote: {},
@@ -72,6 +73,7 @@ export default {
     },
     saveNote() {
       this.$emit("savenote", this.mynote);
+      this.saveTags()
     },
     saveTags() {
       this.$emit("updatetags", this.mynote.tags);
