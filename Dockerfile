@@ -1,7 +1,7 @@
-FROM node:9.11.1-alpine
+FROM node:14-alpine
 
 # install simple http server for serving static content
-
+RUN npm install -g http-server
 # make the 'app' folder the current working directory
 WORKDIR /app
 
@@ -18,4 +18,4 @@ COPY . .
 RUN npm run build
 
 EXPOSE 3000
-CMD PORT=3000 npx serve dist
+CMD http-server --port 3000  ./dist
