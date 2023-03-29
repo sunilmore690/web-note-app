@@ -53,7 +53,7 @@
       <el-input placeholder="search notes ..." v-model="search" clearable>
       </el-input>
     </div>
-    <div style="height: 75vh; overflow-y: auto">
+    <div style="max-height: 70vh; overflow-y: auto">
       <div
         v-for="noteobj in mynotes"
         @click="setNote(noteobj)"
