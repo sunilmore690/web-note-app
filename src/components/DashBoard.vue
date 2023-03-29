@@ -10,13 +10,32 @@
         :tags="tags"
       />
     </el-col>
-    <el-col :span="16" :xs="24">
+
+    <el-col
+      :span="16"
+      :xs="24"
+      v-if="isMobile"
+      class="notemobile"
+      :style="{ display: mode === 'view' ? 'inherit' : 'none' }"
+    >
+      <div style="padding-bottom: 5px" @click="changeMode('list')">
+        <i class="el-icon-back"></i> Back
+      </div>
       <Note
         :note="note"
         @savenote="handleSaveNote"
         @updatetags="handleUpdateTags"
         :tags="tags"
-    /></el-col>
+      />
+    </el-col>
+    <el-col :span="16" :xs="24" v-else class="note">
+      <Note
+        :note="note"
+        @savenote="handleSaveNote"
+        @updatetags="handleUpdateTags"
+        :tags="tags"
+      />
+    </el-col>
   </el-row>
 </template>
 <script>
@@ -32,8 +51,10 @@ export default {
   data() {
     return {
       note: {},
+      mode: "list",
       notes: [],
       tags: [],
+      isMobile: window.isMobile
     };
   },
   components: {
@@ -41,8 +62,12 @@ export default {
     Note,
   },
   methods: {
+    changeMode(mode) {
+      this.mode = mode;
+    },
     handleSetNote(note) {
       this.note = note;
+      this.mode = 'view';
     },
     handleAddNote() {
       this.note = {
@@ -100,7 +125,8 @@ export default {
       }
       this.notes = notes;
       if (this.notes.length) {
-        this.handleSetNote(this.notes[0]);
+        if(!this.isMobile) this.handleSetNote(this.notes[0]);
+        
       } else {
         this.handleAddNote();
       }
@@ -110,3 +136,15 @@ export default {
   },
 };
 </script>
+<style scoped>
+.notemobile {
+  position: fixed !important;
+  top: 10px;
+  background: white;
+  padding-right: 5px !important;
+  width: 97vw;
+}
+.note{
+  padding-left: 10px;
+}
+</style>

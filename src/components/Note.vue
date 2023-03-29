@@ -1,5 +1,5 @@
 <template>
-  <el-row class="note">
+  <el-row >
     <div v-if="editMode">
       <div style="margin-bottom: 10px">
         <el-input
@@ -18,7 +18,6 @@
           allow-create
           default-first-option
           placeholder="Enter your tags here..."
-          
         >
           <el-option
             v-for="tag in tags || []"
@@ -30,6 +29,7 @@
         </el-select>
       </div>
       <vue-editor
+        ref="editor"
         v-model="mynote.body"
         class="margin-bottom10"
         style="height: 700px; overflow-y: scroll"
@@ -42,12 +42,13 @@
 import { VueEditor } from "vue2-editor";
 export default {
   props: ["note", "tags"],
-  
+
   data() {
     return {
       mynote: {},
       editMode: true,
       saveTimeout: null,
+      isMobile: /iPhone|iPad|iPod|Android/i.test(window.navigator.userAgent),
     };
   },
   components: {
@@ -73,7 +74,7 @@ export default {
     },
     saveNote() {
       this.$emit("savenote", this.mynote);
-      this.saveTags()
+      this.saveTags();
     },
     saveTags() {
       this.$emit("updatetags", this.mynote.tags);
@@ -92,6 +93,7 @@ export default {
 .note {
   padding-left: 20px;
 }
+
 .quillWrapper {
   overflow: unset !important;
   height: 75vh !important;
