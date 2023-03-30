@@ -1,5 +1,5 @@
 <template>
-  <div @mouseover="close = true" @mouseleave="close = false">
+  <div @mouseover="close = true" @mouseleave="close = false" style="margin-bottom:  8px">
     <el-card
       class="box-card note-list-unit"
       :class="{ active: note.id === noteobj.id }"
