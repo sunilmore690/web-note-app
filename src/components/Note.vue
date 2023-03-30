@@ -66,7 +66,7 @@ export default {
         if (this.mynote.body !== this.note.body) {
           this.saveNote();
         }
-      }, 1000);
+      }, 4000);
     },
     clearSaveTimeout() {
       clearInterval(this.saveTimeout);
