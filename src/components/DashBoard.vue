@@ -70,9 +70,11 @@ export default {
       this.mode = 'view';
     },
     handleAddNote() {
+      var id = "id" + Math.random().toString(16).slice(2)
+
       this.note = {
         ...noteDef,
-        id: this.notes.length + 1,
+        id,
         created: new Date(),
       };
       this.notes.push({ ...this.note });
