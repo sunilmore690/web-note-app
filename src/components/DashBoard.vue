@@ -51,6 +51,7 @@ export default {
   data() {
     return {
       note: {},
+      notetemp : {},
       mode: "list",
       notes: [],
       tags: [],
@@ -81,11 +82,11 @@ export default {
       this.storeNotes();
     },
     handleSaveNote(note) {
-      this.note = note;
-      this.note.updated = new Date();
+      this.notetemp = {...note,created:note.created || new Date(),updated:new Date()}
+      const udpatetnote = {...this.notetemp}
       this.notes = this.notes.map((obj) => {
-        if (obj.id === note.id) {
-          return note;
+        if (obj.id === udpatetnote.id) {
+          return udpatetnote;
         }
         return obj;
       });

@@ -56,6 +56,11 @@ export default {
   },
   watch: {
     note() {
+      console.log('this.mynote',this.mynote)
+      console.log('this.note',this.note)
+      // if(this.mynote.id && this.note.id !== this.mynote.id){
+      //   this.saveNote(); 
+      // }
       this.mynote = Object.assign({}, this.note);
     },
   },
@@ -66,26 +71,27 @@ export default {
         if (this.mynote.body !== this.note.body) {
           this.saveNote();
         }
-      }, 4000);
+      }, 1000);
     },
     clearSaveTimeout() {
       clearInterval(this.saveTimeout);
       this.saveTimeout = null;
     },
     saveNote() {
-      this.$emit("savenote", this.mynote);
-      this.saveTags();
+      this.$emit("savenote", {...this.mynote});
+      // this.saveTags();
     },
     saveTags() {
       this.$emit("updatetags", this.mynote.tags);
-      this.saveNote();
+      // this.saveNote();
     },
   },
   mounted() {
-    this.startSaveTimeout();
+     this.startSaveTimeout();
   },
   destroyed() {
     this.clearSaveTimeout();
+    this.$emit("")
   },
 };
 </script>
