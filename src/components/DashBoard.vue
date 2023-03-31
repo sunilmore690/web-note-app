@@ -39,6 +39,7 @@
   </el-row>
 </template>
 <script>
+import { saveNote, getAllNotes, updateNote, deleteNote ,getNoteById} from "../idb.js";
 import SideList from "./SideList";
 import Note from "./Note";
 const noteDef = {
@@ -77,9 +78,23 @@ export default {
         ...noteDef,
         id,
         created: new Date(),
+        updated: new Date(),
       };
       this.notes.push({ ...this.note });
-      this.storeNotes();
+      this.saveOrUpdateNote({...this.note})
+    },
+    saveOrUpdateNote(note){
+      console.log('note',note)
+       getNoteById(note.id).then(obj=>{
+        console.log('obj',obj)
+          if(obj){
+            return updateNote(note)
+          }else {
+            return saveNote(note)
+          }
+       }).then((d)=>{
+           console.log('done',d)
+       })
     },
     handleSaveNote(note) {
       this.notetemp = {...note,created:note.created || new Date(),updated:new Date()}
@@ -90,12 +105,13 @@ export default {
         }
         return obj;
       });
-      this.storeNotes();
+      // this.storeNotes
+      this.saveOrUpdateNote(udpatetnote)
     },
     storeNotes() {
       localStorage.setItem("notes", JSON.stringify(this.notes));
     },
-    handleRemoveNote(note) {
+    async handleRemoveNote(note) {
       this.notes = this.notes.filter((obj) => {
         return obj.id !== note.id;
       });
@@ -106,7 +122,7 @@ export default {
           this.handleAddNote();
         }
       }
-      this.storeNotes();
+      await deleteNote(note.id)
     },
     handleUpdateTags(tags) {
       tags = [...this.tags, ...tags];
@@ -114,17 +130,15 @@ export default {
       localStorage.setItem("tags", JSON.stringify(this.tags));
     },
   },
-  mounted() {
+  async mounted() {
     try {
-      let notes = localStorage.getItem("notes");
+      let notes = await  getAllNotes()
       let tags = localStorage.getItem("tags");
       if (tags) {
         this.tags = JSON.parse(tags);
       }
       if (!notes) {
         this.handleAddNote();
-      } else {
-        notes = JSON.parse(notes);
       }
       this.notes = notes;
       if (this.notes.length) {
