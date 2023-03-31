@@ -4,7 +4,7 @@ module.exports = defineConfig({
   pwa: {
     manifestOptions: {
       "name": "Note App",
-      "short_name": "note-app",
+      "short_name": "Note App",
       "theme_color": "#1976d2",
       "background_color": "#fafafa",
       "display": "standalone",
