@@ -56,7 +56,7 @@
     <div style="max-height: 70vh; overflow-y: auto">
       <div
         v-for="noteobj in mynotes"
-        @click="setNote(noteobj)"
+        @click.prevent="setNote(noteobj)"
         :key="noteobj.id"
       >
         <note-unit

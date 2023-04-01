@@ -1,7 +1,8 @@
 <template>
   <div
-    @mouseover="close = true"
-    @mouseleave="close = false"
+  @mouseenter="handleMouseEnter"
+   @mouseleave="close = false"
+    @contextmenu="close = true;$event.preventDefault()"
     style="margin-bottom: 8px"
   >
     <el-card
@@ -25,8 +26,8 @@
               >confirm</el-button
             >
           </div>
-          <el-button slot="reference" type="danger" size="small" round
-            >X</el-button
+          <el-button slot="reference" type="danger" size="large" round
+            @click.stop="">X</el-button
           >
         </el-popover>
       </div>
@@ -51,6 +52,11 @@ export default {
     handleDeleteNote(note) {
       this.$emit("removenote", note);
     },
+    handleMouseEnter(){
+      if(!window.isMobile){
+        this.close = true;
+      }
+    }
   },
   filters: {
     trim(value = "", count = 10) {

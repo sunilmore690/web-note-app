@@ -1,7 +1,8 @@
 <template>
   <div>
-    <div>
-      <h2>Take Note</h2>
+    <div :style="{marginBottom:'10px'}">
+      <span :style="{ fontSize: '25px', fontWeight: 700 }">Take Note</span>
+      &nbsp;<span>By <a href="https://sunilmore.com" target="_blank">  Sunil More</a> </span>
     </div>
     <div>
       <DashBoard msg="Hello Vue in CodeSandbox!" />
