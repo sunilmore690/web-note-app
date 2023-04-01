@@ -79,7 +79,7 @@ export default {
     },
     saveNote() {
       this.$emit("savenote", {...this.mynote});
-      // this.saveTags();
+       this.saveTags();
     },
     saveTags() {
       this.$emit("updatetags", this.mynote.tags);
