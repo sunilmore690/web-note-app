@@ -44,6 +44,37 @@ export function getNoteById(id) {
     });
   });
 }
+export  function addOrUpdateRecord(note) {
+  // Open a transaction on the object store with read/write access
+  return new Promise((resolve, reject) => {
+    openDb().then((db) => {
+      const transaction = db.transaction(["notes"], "readwrite");
+      const objectStore = transaction.objectStore("notes");
+
+      // const request = objectStore.add(note);
+      const request = objectStore.get(note.id);
+      request.onerror = () => {
+        reject(Error("Failed to save note"));
+      };
+
+      request.onsuccess = () => {
+        const existingRecord = request.result;
+        console.log('exiexistingRecord',existingRecord)
+        if (existingRecord) {
+          // Update the existing record
+          updateNote(note).then(resolve).catch(reject)
+        } else {
+          // Add a new record
+          const {id,...obj} = note;
+          console.debug(id)
+          saveNote(obj).then(resolve).catch(reject)
+        }
+        resolve(request.result);
+      };
+    });
+  });
+}
+
 export function saveNote(note) {
   return new Promise((resolve, reject) => {
     openDb().then((db) => {
