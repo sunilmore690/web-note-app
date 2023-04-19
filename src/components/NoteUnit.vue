@@ -9,7 +9,7 @@
       class="box-card note-list-unit"
       :class="{ active: note.id === noteobj.id }"
     >
-      <div v-show="close" style="position: absolute">
+      <div v-show="false" style="position: absolute">
         <el-popover placement="top" width="160" v-model="visible">
           <p>Are you sure to delete this?</p>
           <div style="text-align: right; margin: 0">

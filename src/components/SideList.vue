@@ -35,7 +35,23 @@
         </el-col>
         <el-col :span="8">
           <div style="text-align: right">
-            <span style="padding-right: 20px"
+            <el-popover placement="top" width="160" v-model="visible">
+              <p>Are you sure to delete this?</p>
+              <div style="text-align: right; margin: 0">
+                <el-button size="mini" type="text" @click="visible = false"
+                  >cancel</el-button
+                >
+                <el-button type="primary" size="mini" @click="
+                  handleRemove(note);
+                  visible = false;
+                  "
+                  >confirm</el-button
+                >
+              </div>
+              <el-button slot="reference" icon="el-icon-delete" round size="mini"></el-button>
+            </el-popover>
+
+            <span style="padding-left: 10px; padding-right: 20px"
               >{{ mynotes.length }} / {{ notes.length }} Notes</span
             >
             <el-button
@@ -74,6 +90,7 @@ export default {
   props: ["notes", "note", "tags"],
   data() {
     return {
+      visible:false,
       mynotes: [],
       sortOptions: [
         {
@@ -152,6 +169,7 @@ export default {
       this.$emit("setnote", note);
     },
     handleRemove(note) {
+      console.log('handleRemove',note);
       this.$emit("removenote", note);
     },
     handleTagChange() {

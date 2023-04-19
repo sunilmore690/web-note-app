@@ -112,6 +112,7 @@ export default {
       localStorage.setItem("notes", JSON.stringify(this.notes));
     },
     async handleRemoveNote(note) {
+      console.log('delete note',note,this.notes)
       this.notes = this.notes.filter((obj) => {
         return obj.id !== note.id;
       });
