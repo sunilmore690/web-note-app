@@ -1,7 +1,7 @@
 <template>
   <div>
     <div :style="{ marginBottom: '10px' }">
-      <el-dialog title="About Us" :visible.sync="dialogVisible" width="50%" >
+      <el-dialog title="About Us" :visible.sync="dialogVisible" width="90%" >
         <p :style="{fontSize:'medium'}">
           Welcome to the  Note App! We are a team of developers dedicated to
           providing you with a user-friendly and efficient note-taking
@@ -32,16 +32,17 @@
           ><span :style="{ fontSize: '25px', fontWeight: 700 }">Take Note</span>
           &nbsp;<span
             >By <a href="https://sunilmore.com" target="_blank"> Sunil More</a>
-          </span></el-col
+          </span>
+         &nbsp;&nbsp;  <el-button type="text" @click="dialogVisible = true"
+            >About Us</el-button
+          ></el-col
         >
-        <el-col :sm="4">&nbsp;</el-col>
-        <el-col :sm="8">
-          <BackupRestore />
+        <el-col :sm="2">&nbsp;</el-col>
+        <el-col :sm="6">
+          <BackupRestore /> 
         </el-col>
         <el-col :sm="2">
-          <el-button type="text" @click="dialogVisible = true"
-            >About Us</el-button
-          >
+          
         </el-col>
       </el-row>
     </div>
