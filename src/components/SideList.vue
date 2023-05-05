@@ -35,34 +35,44 @@
         </el-col>
         <el-col :span="8">
           <div style="text-align: right">
-            <el-popover placement="top" width="160" v-model="visible">
-              <p>Are you sure to delete this?</p>
-              <div style="text-align: right; margin: 0">
-                <el-button size="mini" type="text" @click="visible = false"
-                  >cancel</el-button
-                >
-                <el-button type="primary" size="mini" @click="
-                  handleRemove(note);
-                  visible = false;
-                  "
-                  >confirm</el-button
-                >
-              </div>
-              <el-button slot="reference" icon="el-icon-delete" round size="mini"></el-button>
-            </el-popover>
-
             <span style="padding-left: 10px; padding-right: 20px"
               >{{ mynotes.length }} / {{ notes.length }} Notes</span
             >
-            <el-button
-              size="small"
-              round
-              @click="addNote()"
-              class="add-note-btn"
-              >+ Add Note</el-button
-            >
           </div>
         </el-col>
+      </el-row>
+      
+      <el-row> 
+        <el-col :span="12" :style="{ paddingTop: '10px' }">
+        <el-popover placement="top" width="160" v-model="visible">
+          <p>Are you sure to delete this?</p>
+          <div style="text-align: right; margin: 0">
+            <el-button size="mini" type="text" @click="visible = false"
+              >cancel</el-button
+            >
+            <el-button
+              type="primary"
+              size="mini"
+              @click="
+                handleRemove(note);
+                visible = false;
+              "
+              >confirm</el-button
+            >
+          </div>
+          <el-button
+            slot="reference"
+            icon="el-icon-delete"
+            round
+            size="mini"
+          ></el-button> </el-popover
+      ></el-col>
+      <el-col :offset="6" :span="4">
+        <el-button size="small" round @click="addNote()" class="add-note-btn"
+          >+ Add Note</el-button
+        >
+      </el-col>
+        <el-col :span="2">&nbsp;</el-col>
       </el-row>
     </div>
     <div style="margin-bottom: 10px">
@@ -90,7 +100,7 @@ export default {
   props: ["notes", "note", "tags"],
   data() {
     return {
-      visible:false,
+      visible: false,
       mynotes: [],
       sortOptions: [
         {
@@ -169,7 +179,7 @@ export default {
       this.$emit("setnote", note);
     },
     handleRemove(note) {
-      console.log('handleRemove',note);
+      console.log("handleRemove", note);
       this.$emit("removenote", note);
     },
     handleTagChange() {
