@@ -3,10 +3,10 @@
   @mouseenter="handleMouseEnter"
    @mouseleave="close = false"
     @contextmenu="close = true;$event.preventDefault()"
-    style="margin-bottom: 8px"
+    style="margin-bottom: 8px;padding:3px"
   >
     <el-card
-      class="box-card note-list-unit"
+      class=" note-list-unit"
       :class="{ active: note.id === noteobj.id }"
     >
       <div v-show="false" style="position: absolute">
@@ -33,8 +33,8 @@
       </div>
       <span style="font-weight: bold">{{ noteobj.title | trim(40) }}</span>
       <el-row style="font-size: smaller; padding-top: 10px">
-        <el-col :span="12">Created :{{ noteobj.created | updatedFormatDate }}</el-col>
-        <el-col :span="12">Updated : {{ noteobj.updated | updatedFormatDate }}</el-col>
+        <!-- <el-col :span="12">Created :{{ noteobj.created | updatedFormatDate }}</el-col> -->
+        <el-col :span="12">{{ noteobj.updated | updatedFormatDate }}</el-col>
       </el-row>
     </el-card>
   </div>
@@ -71,19 +71,26 @@ export default {
       const diff = (now.getTime() - date.getTime()) / 1000;
 
       if (diff < 60) {
-        return Math.floor(diff) + " seconds ago";
+        return Math.floor(diff) + "s ago";
       } else if (diff < 60 * 60) {
         const minutes = Math.floor(diff / 60);
-        return minutes === 1 ? "1 minute ago" : minutes + " minutes ago";
+        return minutes === 1 ? "1 m ago" : minutes + "m ago";
       } else if (diff < 60 * 60 * 24) {
         const hours = Math.floor(diff / (60 * 60));
-        return hours === 1 ? "1 hour ago" : hours + " hours ago";
+        return hours === 1 ? "1 h ago" : hours + "h ago";
       } else if (diff < 60 * 60 * 24 * 5) {
         const days = Math.floor(diff / (60 * 60 * 24));
-        return days === 1 ? "1 day ago" : days + " days ago";
+        return days === 1 ? "1 d ago" : days + "d ago";
       } else {
-        const options = { year: "numeric", month: "long", day: "numeric" };
-        return date.toLocaleDateString("en-US", options);
+        const currentDate = new Date();
+        if( currentDate.getFullYear() === date.getFullYear() ){
+          const options = { day: 'numeric', month: 'long' };
+          return date.toLocaleDateString(undefined, options);
+        } else {
+          const options = { year: "numeric", month: "long", day: "numeric" };
+         return date.toLocaleDateString("en-US", options);
+        }
+        
       }
     },
     formatDate(date) {
@@ -104,7 +111,10 @@ export default {
 </script>
 <style scoped>
 .note-list-unit {
+  box-shadow: 0 5px 12px 0#e4e4e461;
   cursor: pointer;
+  border-radius: 15px;
+  border:none;
 }
 .note-list-unit.active {
   background: grey;

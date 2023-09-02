@@ -45,7 +45,9 @@ export default {
 
   data() {
     return {
-      mynote: {},
+      mynote: {
+        tags:[]
+      },
       editMode: true,
       saveTimeout: null,
       isMobile: /iPhone|iPad|iPod|Android/i.test(window.navigator.userAgent),

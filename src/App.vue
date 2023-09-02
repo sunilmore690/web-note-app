@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :style="{ marginBottom: '10px' }">
+    <div :style="{ marginBottom: '10px'}">
       <el-dialog title="About Us" :visible.sync="dialogVisible" width="90%" >
         <p :style="{fontSize:'medium'}">
           Welcome to the  Note App! We are a team of developers dedicated to
@@ -37,9 +37,9 @@
             >About Us</el-button
           ></el-col
         >
-        <el-col :sm="2">&nbsp;</el-col>
+       
         <el-col :sm="6">
-          <BackupRestore /> 
+          <BackupRestore v-show="isMobile() ? false:true"/> 
         </el-col>
         <el-col :sm="2">
           
@@ -61,6 +61,11 @@ export default {
     return {
       dialogVisible: false,
     };
+  },
+  methods : {
+    isMobile(){
+      return window.isMobile;
+    }
   },
   components: {
     DashBoard,

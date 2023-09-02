@@ -18,8 +18,35 @@
       class="notemobile"
       :style="{ display: mode === 'view' ? 'inherit' : 'none' }"
     >
-      <div style="padding-bottom: 5px" @click="changeMode('list')">
-        <i class="el-icon-back"></i> Back
+      <div style="padding-bottom: 5px">
+        <i class="el-icon-back" style="font-size: 20px; font-weight: 700"  @click="changeMode('list')"></i>
+        <el-popover placement="top" width="160" v-model="visible" style="margin-left:  80%">
+          <p>Are you sure to delete this?</p>
+          <div style="text-align: right; margin: 0">
+            <el-button size="mini" type="text" @click="visible = false"
+              >cancel</el-button
+            >
+            <el-button
+            
+              type="primary"
+              size="mini"
+              @click.stop="
+                handleRemoveNote(note);
+                changeMode('list')
+                visible = false;
+              "
+              >confirm</el-button
+            >
+          </div>
+          <el-button
+
+            slot="reference"
+            icon="el-icon-delete"
+            round
+            size="mini"
+           
+          ></el-button>
+        </el-popover>
       </div>
       <Note
         :note="note"
@@ -39,7 +66,13 @@
   </el-row>
 </template>
 <script>
-import { saveNote, getAllNotes, updateNote, deleteNote ,getNoteById} from "../idb.js";
+import {
+  saveNote,
+  getAllNotes,
+  updateNote,
+  deleteNote,
+  getNoteById,
+} from "../idb.js";
 import SideList from "./SideList";
 import Note from "./NoteEditor";
 const noteDef = {
@@ -52,11 +85,12 @@ export default {
   data() {
     return {
       note: {},
-      notetemp : {},
+      notetemp: {},
       mode: "list",
       notes: [],
       tags: [],
-      isMobile: window.isMobile
+      isMobile: window.isMobile,
+      visible: false,
     };
   },
   components: {
@@ -69,10 +103,10 @@ export default {
     },
     handleSetNote(note) {
       this.note = note;
-      this.mode = 'view';
+      this.mode = "view";
     },
     handleAddNote() {
-      var id = "id" + Math.random().toString(16).slice(2)
+      var id = "id" + Math.random().toString(16).slice(2);
 
       this.note = {
         ...noteDef,
@@ -80,25 +114,32 @@ export default {
         created: new Date(),
         updated: new Date(),
       };
-      this.notes.push({ ...this.note });
-      this.saveOrUpdateNote({...this.note})
+      this.notes.unshift({ ...this.note });
+      this.saveOrUpdateNote({ ...this.note });
+     this.handleSetNote(this.note);
     },
-    saveOrUpdateNote(note){
-      console.log('note',note)
-       getNoteById(note.id).then(obj=>{
-        console.log('obj',obj)
-          if(obj){
-            return updateNote(note)
-          }else {
-            return saveNote(note)
+    saveOrUpdateNote(note) {
+      console.log("note", note);
+      getNoteById(note.id)
+        .then((obj) => {
+          console.log("obj", obj);
+          if (obj) {
+            return updateNote(note);
+          } else {
+            return saveNote(note);
           }
-       }).then((d)=>{
-           console.log('done',d)
-       })
+        })
+        .then((d) => {
+          console.log("done", d);
+        });
     },
     handleSaveNote(note) {
-      this.notetemp = {...note,created:note.created || new Date(),updated:new Date()}
-      const udpatetnote = {...this.notetemp}
+      this.notetemp = {
+        ...note,
+        created: note.created || new Date(),
+        updated: new Date(),
+      };
+      const udpatetnote = { ...this.notetemp };
       this.notes = this.notes.map((obj) => {
         if (obj.id === udpatetnote.id) {
           return udpatetnote;
@@ -106,13 +147,13 @@ export default {
         return obj;
       });
       // this.storeNotes
-      this.saveOrUpdateNote(udpatetnote)
+      this.saveOrUpdateNote(udpatetnote);
     },
     storeNotes() {
       localStorage.setItem("notes", JSON.stringify(this.notes));
     },
     async handleRemoveNote(note) {
-      console.log('delete note',note,this.notes)
+      console.log("delete note", note, this.notes);
       this.notes = this.notes.filter((obj) => {
         return obj.id !== note.id;
       });
@@ -121,19 +162,20 @@ export default {
           this.handleSetNote(this.notes[0]);
         } else {
           this.handleAddNote();
+
         }
       }
-      await deleteNote(note.id)
+      
+      await deleteNote(note.id);
     },
     handleUpdateTags(tags) {
-      tags = [...this.tags, ...tags];
       this.tags = [...new Set(tags)];
       localStorage.setItem("tags", JSON.stringify(this.tags));
     },
   },
   async mounted() {
     try {
-      let notes = await  getAllNotes()
+      let notes = await getAllNotes();
       let tags = localStorage.getItem("tags");
       if (tags) {
         this.tags = JSON.parse(tags);
@@ -143,8 +185,7 @@ export default {
       }
       this.notes = notes;
       if (this.notes.length) {
-        if(!this.isMobile) this.handleSetNote(this.notes[0]);
-        
+        if (!this.isMobile) this.handleSetNote(this.notes[0]);
       } else {
         this.handleAddNote();
       }
@@ -156,13 +197,16 @@ export default {
 </script>
 <style scoped>
 .notemobile {
+  padding: 5px;
   position: fixed !important;
-  top: 10px;
+  top: 0px;
+  left: 0px;
   background: white;
-  padding-right: 5px !important;
-  width: 97vw;
+  z-index: 400;
+  /* padding-right: 5px !important; */
+  width: 100%;
 }
-.note{
+.note {
   padding-left: 10px;
 }
 </style>
