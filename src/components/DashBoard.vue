@@ -19,37 +19,54 @@
       :style="{ display: mode === 'view' ? 'inherit' : 'none' }"
     >
       <div style="padding-bottom: 5px">
-        <i class="el-icon-back" style="font-size: 20px; font-weight: 700"  @click="changeMode('list')"></i>
-        <el-popover placement="top" width="160" v-model="visible" style="margin-left:  80%">
-          <p>Are you sure to delete this?</p>
-          <div style="text-align: right; margin: 0">
-            <el-button size="mini" type="text" @click="visible = false"
-              >cancel</el-button
-            >
-            <el-button
-            
-              type="primary"
-              size="mini"
-              @click.stop="
-                handleRemoveNote(note);
-                changeMode('list')
-                visible = false;
-              "
-              >confirm</el-button
-            >
-          </div>
-          <el-button
+        <i
+          class="el-icon-back"
+          style="font-size: 20px; font-weight: 700"
+          @click="changeMode('list')"
+        ></i>
 
-            slot="reference"
-            icon="el-icon-delete"
-            round
-            size="mini"
-           
-          ></el-button>
-        </el-popover>
+        <div style="margin-left: 60%">
+          
+          <i
+            
+            :class="`el-icon-${editMode ? 'view':'edit'}`"
+            @click="editMode=!editMode"
+            style="font-size: 20px; font-weight: 700; margin-right: 20px;"
+          ></i>
+          <el-popover
+            placement="top"
+            width="160"
+            v-model="visible"
+            
+          >
+            <p>Are you sure to delete this?</p>
+            <div style="text-align: right; margin: 0">
+              <el-button size="mini" type="text" @click="visible = false"
+                >cancel</el-button
+              >
+              <el-button
+                type="primary"
+                size="mini"
+                @click.stop="
+                  handleRemoveNote(note);
+                  changeMode('list');
+                  visible = false;
+                "
+                >confirm</el-button
+              >
+            </div>
+            <el-button
+              slot="reference"
+              icon="el-icon-delete"
+              round
+              size="mini"
+            ></el-button>
+          </el-popover>
+        </div>
       </div>
       <Note
         :note="note"
+        :editMode="editMode"
         @savenote="handleSaveNote"
         @updatetags="handleUpdateTags"
         :tags="tags"
@@ -91,6 +108,7 @@ export default {
       tags: [],
       isMobile: window.isMobile,
       visible: false,
+      editMode:false
     };
   },
   components: {
@@ -116,7 +134,7 @@ export default {
       };
       this.notes.unshift({ ...this.note });
       this.saveOrUpdateNote({ ...this.note });
-     this.handleSetNote(this.note);
+      this.handleSetNote(this.note);
     },
     saveOrUpdateNote(note) {
       console.log("note", note);
@@ -162,10 +180,9 @@ export default {
           this.handleSetNote(this.notes[0]);
         } else {
           this.handleAddNote();
-
         }
       }
-      
+
       await deleteNote(note.id);
     },
     handleUpdateTags(tags) {

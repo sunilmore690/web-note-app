@@ -1,5 +1,5 @@
 <template>
-  <el-row >
+  <el-row>
     <div v-if="editMode">
       <div style="margin-bottom: 10px">
         <el-input
@@ -35,20 +35,38 @@
         style="height: 700px; overflow-y: scroll"
       ></vue-editor>
     </div>
-    <div v-else></div>
+    <div v-else style="height: 90vh; padding: 10px">
+      <h3>Title: {{ mynote.title }}</h3>
+      <div>
+        Tags:
+        <el-tag v-for="tag1 in tags || []" :key="tag1 + 'def'">{{
+          tag1
+        }}</el-tag>
+      </div>
+      <div style="border-color: grey; border-width: 2px">
+        <div v-html="mynote.body"></div>
+      </div>
+    </div>
   </el-row>
 </template>
 <script>
 import { VueEditor } from "vue2-editor";
 export default {
-  props: ["note", "tags"],
+  props: {
+    note: Object,
+    tags: Array,
+    editMode: {
+      name: "editMode",
+      default: true,
+    },
+  },
 
   data() {
     return {
       mynote: {
-        tags:[]
+        tags: [],
       },
-      editMode: true,
+      // editMode: true,
       saveTimeout: null,
       isMobile: /iPhone|iPad|iPod|Android/i.test(window.navigator.userAgent),
     };
@@ -58,10 +76,10 @@ export default {
   },
   watch: {
     note() {
-      console.log('this.mynote',this.mynote)
-      console.log('this.note',this.note)
+      console.log("this.mynote", this.mynote);
+      console.log("this.note", this.note);
       // if(this.mynote.id && this.note.id !== this.mynote.id){
-      //   this.saveNote(); 
+      //   this.saveNote();
       // }
       this.mynote = Object.assign({}, this.note);
     },
@@ -80,8 +98,8 @@ export default {
       this.saveTimeout = null;
     },
     saveNote() {
-      this.$emit("savenote", {...this.mynote});
-       this.saveTags();
+      this.$emit("savenote", { ...this.mynote });
+      this.saveTags();
     },
     saveTags() {
       this.$emit("updatetags", this.mynote.tags);
@@ -89,11 +107,11 @@ export default {
     },
   },
   mounted() {
-     this.startSaveTimeout();
+    this.startSaveTimeout();
   },
   destroyed() {
     this.clearSaveTimeout();
-    this.$emit("")
+    this.$emit("");
   },
 };
 </script>

@@ -42,14 +42,14 @@
         </el-col>
       </el-row>
       <el-row v-else style="margin-bottom: 10px">
-        <el-col :span="8" style="padding-top: 5px;">
+        <el-col :span="12" style="padding-top: 5px;">
           <div>
             <span style="padding-left: 10px; padding-right: 20px"
               >{{ mynotes.length }} / {{ notes.length }} Notes</span
             >
           </div>
         </el-col>
-        <el-col :span="3" :offset="6" style="padding-top: 5px;">
+        <el-col :span="3" :offset="2" style="padding-top: 5px;">
           <span
             @click="dialogVisible = true"
             style="
@@ -148,7 +148,7 @@
       <el-input placeholder="search notes ..." v-model="search" clearable>
       </el-input>
     </div>
-    <div style="max-height: 70vh; overflow-y: auto">
+    <div style="max-height: calc(100vh - 200px);; overflow-y: auto">
       <div
         v-for="noteobj in mynotes"
         @click.prevent="setNote(noteobj)"
