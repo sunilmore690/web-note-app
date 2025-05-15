@@ -26,9 +26,9 @@
         ></i>
 
         <div style="margin-left: 60%">
-          
+
           <i
-            
+
             :class="`el-icon-${editMode ? 'view':'edit'}`"
             @click="editMode=!editMode"
             style="font-size: 20px; font-weight: 700; margin-right: 20px;"
@@ -37,7 +37,7 @@
             placement="top"
             width="160"
             v-model="visible"
-            
+
           >
             <p>Are you sure to delete this?</p>
             <div style="text-align: right; margin: 0">
@@ -186,7 +186,7 @@ export default {
       await deleteNote(note.id);
     },
     handleUpdateTags(tags) {
-      this.tags = [...new Set(tags)];
+      this.tags = [...new Set([...this.tags,...tags])];
       localStorage.setItem("tags", JSON.stringify(this.tags));
     },
   },

@@ -35,7 +35,7 @@
         style="height: 700px; overflow-y: scroll"
       ></vue-editor>
     </div>
-    <div v-else style="height: 90vh; padding: 10px">
+    <div v-else style="height: 90vh; padding: 10px;overflow-y: scroll;">
       <h3>Title: {{ mynote.title }}</h3>
       <div>
         Tags:
@@ -43,7 +43,7 @@
           tag1
         }}</el-tag>
       </div>
-      <div style="border-color: grey; border-width: 2px">
+      <div style="border-color: grey; border-width: 2px;">
         <div v-html="mynote.body"></div>
       </div>
     </div>
