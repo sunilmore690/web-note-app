@@ -28,23 +28,49 @@
         </p>
       </el-dialog>
       <el-row>
-        <el-col :sm="10"
-          ><span :style="{ fontSize: '25px', fontWeight: 700 }">Take Note</span>
-          &nbsp;<span
-            >By <a href="https://sunilmore.com" target="_blank"> Sunil More</a>
-          </span>
-         &nbsp;&nbsp;  <el-button type="text" @click="dialogVisible = true"
-            >About Us</el-button
-          ></el-col
-        >
+        <el-col :span="24" class="header-container">
+          <!-- Desktop layout -->
+          <div v-if="!isMobile()" class="desktop-header">
+            <div class="app-title">
+              <span :style="{ fontSize: '25px', fontWeight: 700 }">NoteWapp</span>
+            </div>
+            <div class="center-controls">
+              <div class="theme-toggle-container">
+                <i class="el-icon-sunny" :class="{'active-icon': !isDarkMode}"></i>
+                <el-switch
+                  v-model="isDarkMode"
+                  @change="toggleDarkMode"
+                  active-color="#444444"
+                  inactive-color="#8e99a5"
+                  class="theme-switch"
+                ></el-switch>
+                <i class="el-icon-moon" :class="{'active-icon': isDarkMode}"></i>
+              </div>
+              <el-button type="text" @click="dialogVisible = true">About Us</el-button>
+            </div>
+            <div class="backup-controls">
+              <BackupRestore />
+            </div>
+          </div>
 
-        <el-col :sm="6">
-          <BackupRestore v-show="isMobile() ? false:true"/> 
-        </el-col>
-        <el-col :sm="2">
-          <div class="theme-toggle" @click="toggleDarkMode">
-            <i :class="isDarkMode ? 'el-icon-moon' : 'el-icon-sunny'" class="theme-toggle-icon"></i>
-            <span style="margin-left: 5px">{{ isDarkMode ? 'Dark' : 'Light' }}</span>
+          <!-- Mobile layout -->
+          <div v-else class="mobile-header">
+            <div class="mobile-row">
+              <span class="mobile-title" :style="{ fontSize: '22px', fontWeight: 700 }">NoteWapp</span>
+              <div class="theme-toggle-container mobile">
+                <i class="el-icon-sunny mobile-icon" :class="{'active-icon': !isDarkMode}"></i>
+                <el-switch
+                  v-model="isDarkMode"
+                  @change="toggleDarkMode"
+                  active-color="#444444"
+                  inactive-color="#8e99a5"
+                  class="theme-switch"
+                  size="small"
+                ></el-switch>
+                <i class="el-icon-moon mobile-icon" :class="{'active-icon': isDarkMode}"></i>
+              </div>
+              <el-button type="text" size="small" @click="dialogVisible = true">About Us</el-button>
+            </div>
           </div>
         </el-col>
       </el-row>
@@ -71,7 +97,7 @@ export default {
       return window.innerWidth <= 800;
     },
     toggleDarkMode() {
-      this.isDarkMode = !this.isDarkMode;
+      // We're now using v-model directly with the switch, no need to toggle
       localStorage.setItem('darkMode', this.isDarkMode ? 'true' : 'false');
       this.applyTheme();
     },
@@ -127,42 +153,214 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 30px;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
-.theme-toggle {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px;
-  border-radius: 4px;
-  transition: background-color 0.3s;
-}
-
-.dark-mode .theme-toggle {
-  color: #f5f5f5;
-}
-
-.theme-toggle:hover {
-  background-color: rgba(0, 0, 0, 0.05);
-}
-
-.dark-mode .theme-toggle:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.theme-toggle-icon {
-  font-size: 20px;
+.app-container {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  padding: 0 10px;
 }
 
 /* Apply some base dark mode styles */
 .dark-mode {
   background-color: #1a1a1a;
-  color: #f5f5f5;
+  color: #d4d4d4; /* Softened from #f5f5f5 */
 }
 
 .light-mode {
   background-color: #e4e4e461;
   color: #2c3e50;
+}
+
+/* Fix for content that might cause horizontal scrolling */
+body, html {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Theme switch styles */
+.theme-switch {
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.el-switch {
+  height: 20px;
+  line-height: 20px;
+}
+
+.dark-mode .el-switch__label {
+  color: #d4d4d4;
+}
+
+/* Header layout */
+.header-container {
+  margin-bottom: 15px;
+}
+
+.desktop-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.app-title {
+  flex: 1;
+  text-align: left;
+}
+
+.center-controls {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.backup-controls {
+  flex: 1;
+  text-align: right;
+}
+
+/* Additional styles for dark mode switch */
+.dark-mode .el-switch__core {
+  border-color: #555;
+  background-color: #444;
+}
+
+.dark-mode .el-switch.is-checked .el-switch__core {
+  border-color: #444;
+  background-color: #555;
+}
+
+/* Theme toggle with icons */
+.theme-toggle-container {
+  display: flex;
+  align-items: center;
+  margin: 0 5px;
+  position: relative;
+  min-width: 90px; /* Ensure enough space for the switch and icons */
+}
+
+.el-icon-sunny, .el-icon-moon {
+  font-size: 18px;
+  color: #8e99a5;
+  margin: 0 8px;
+  transition: color 0.3s ease, transform 0.3s ease;
+  position: relative;
+  margin-left: 10px;
+  z-index: 2; /* Ensure icons stay above the switch */
+}
+
+.el-icon-sunny {
+  margin-right: 12px; /* More space between sun icon and switch */
+}
+
+.el-icon-moon {
+  margin-left: px; /* More space between moon icon and switch */
+}
+
+.active-icon {
+  color: #606266;
+  transform: scale(1.2);
+}
+
+.dark-mode .el-icon-sunny {
+  color: #8e99a5;
+}
+
+.dark-mode .el-icon-moon.active-icon {
+  color: #d4d4d4;
+}
+
+/* Mobile icon adjustments */
+.theme-toggle-container.mobile {
+  margin: 0 2px;
+  min-width: 70px; /* Smaller minimum width for mobile */
+}
+
+.mobile-icon {
+  font-size: 14px;
+  margin: 0 3px;
+}
+
+.theme-toggle-container.mobile .el-icon-sunny {
+  margin-right: 8px;
+}
+
+.theme-toggle-container.mobile .el-icon-moon {
+  margin-left: 8px;
+}
+
+/* Mobile header styles */
+.mobile-header {
+  width: 100%;
+}
+
+.mobile-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0;
+}
+
+.mobile-title {
+  margin-right: 5px;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  #app {
+    margin-top: 10px;
+    padding: 0;
+  }
+
+  .app-container {
+    padding: 0 5px;
+  }
+
+  .theme-switch {
+    transform: scale(0.8);
+  }
+
+  .mobile-icon {
+    font-size: 14px;
+    margin: 0 3px;
+  }
+
+  .mobile-row {
+    padding: 5px 0;
+    margin-bottom: 10px;
+  }
+
+  .el-button--text {
+    padding: 7px 10px;
+    font-size: 13px;
+  }
+
+  .dark-mode .el-button--text {
+    color: #d4d4d4;
+  }
+
+  /* Ensure all elements respect container width */
+  img, table, pre, code, .el-input, .el-select, .el-button {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Force word wrapping for all text content */
+  * {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+
+  .el-switch__label {
+    display: none !important;
+  }
 }
 </style>

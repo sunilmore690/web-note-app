@@ -1,6 +1,7 @@
 <template>
-  <el-row>
-    <div >
+  <el-row class="sidelist-container">
+    <!-- Header controls section -->
+    <div class="controls-section">
       <el-row v-if="!isDeviceMobile">
         <el-col :span="8">
           <div style="text-align: left">
@@ -143,11 +144,15 @@
         </el-col>
       </el-row>
     </div>
-    <div style="margin-bottom: 10px">
+
+    <!-- Search input - sticky -->
+    <div class="search-container">
       <el-input placeholder="search notes ..." v-model="search" clearable>
       </el-input>
     </div>
-    <div style="max-height: calc(100vh - 200px);; overflow-y: auto">
+
+    <!-- Scrollable notes container -->
+    <div class="notes-scroll-container">
       <div
         v-for="noteobj in mynotes"
         @click.prevent="setNote(noteobj)"
@@ -281,15 +286,15 @@ export default {
     this.isMobile = this.checkIfMobile();
 
     // Add window resize event listener to update isMobile state
-    window.addEventListener('resize', () => {
+    this.resizeHandler = () => {
       this.isMobile = this.checkIfMobile();
-    });
+    };
+
+    window.addEventListener('resize', this.resizeHandler);
   },
   beforeDestroy() {
     // Clean up event listener
-    window.removeEventListener('resize', () => {
-      this.isMobile = this.checkIfMobile();
-    });
+    window.removeEventListener('resize', this.resizeHandler);
   },
   components: {
     NoteUnit,
@@ -315,8 +320,67 @@ export default {
   opacity: 0.5;
 }
 
-/* Ensure proper spacing between buttons on mobile */
+/* Controls section - contains filters, note count, buttons */
+.controls-section {
+  flex-shrink: 0;
+  margin-bottom: 10px;
+  background: var(--background-color, white);
+}
+
 @media (max-width: 768px) {
+  .controls-section {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+}
+
+/* Container styles for proper mobile scrolling */
+.sidelist-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Search container styles - sticky at the top */
+.search-container {
+  margin-bottom: 10px;
+  position: sticky;
+  top: 0;
+  background: var(--background-color, white);
+  z-index: 5;
+  padding: 5px 0;
+  flex-shrink: 0;
+}
+
+/* Notes scroll container */
+.notes-scroll-container {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  padding-right: 5px; /* Prevent content from touching the scrollbar */
+  margin-bottom: 20px;
+  max-height: calc(100vh - 200px);
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 768px) {
+  .sidelist-container {
+    height: calc(100vh - 60px); /* Account for header */
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .notes-scroll-container {
+    max-height: unset;
+    flex: 1;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Ensure proper spacing between buttons on mobile */
   .el-button {
     margin-top: 5px;
     margin-bottom: 5px;

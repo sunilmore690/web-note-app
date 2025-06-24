@@ -2,31 +2,31 @@
 
 .dark-mode {
   --background-color: #1a1a1a;
-  --text-color: #f5f5f5;
+  --text-color: #d4d4d4; /* Softened from #f5f5f5 */
   --border-color: #444444;
   --card-background: #2d2d2d;
   --hover-color: #3a3a3a;
   --input-background: #333333;
   --tag-background: #444444;
-  --tag-color: #eeeeee;
-  --icon-color: #cccccc;
+  --tag-color: #c4c4c4; /* Softened from #eeeeee */
+  --icon-color: #b0b0b0; /* Softened from #cccccc */
   --editor-background: #2d2d2d;
-  --editor-text: #f5f5f5;
+  --editor-text: #d4d4d4; /* Softened from #f5f5f5 */
   --button-primary: #555555;
-  --button-text: #ffffff;
+  --button-text: #e0e0e0; /* Softened from #ffffff */
   --button-default-bg: #333333;
-  --button-default-text: #f5f5f5;
+  --button-default-text: #d4d4d4; /* Softened from #f5f5f5 */
   --button-default-border: #555555;
   --button-primary-bg: #555555;
-  --button-primary-text: #ffffff;
+  --button-primary-text: #e0e0e0; /* Softened from #ffffff */
   --button-success-bg: #67C23A;
-  --button-success-text: #ffffff;
+  --button-success-text: #e0e0e0; /* Softened from #ffffff */
   --button-warning-bg: #E6A23C;
-  --button-warning-text: #ffffff;
+  --button-warning-text: #e0e0e0; /* Softened from #ffffff */
   --button-danger-bg: #F56C6C;
-  --button-danger-text: #ffffff;
+  --button-danger-text: #e0e0e0; /* Softened from #ffffff */
   --button-info-bg: #909399;
-  --button-info-text: #ffffff;
+  --button-info-text: #e0e0e0; /* Softened from #ffffff */
   --shadow-color: rgba(0, 0, 0, 0.5);
 }
 
@@ -748,4 +748,35 @@
 
 .light-mode .note-item.active {
   background-color: #e0e0e0;
+}
+
+/* Additional Element UI overrides for reduced contrast in dark mode */
+.dark-mode .el-dialog__title,
+.dark-mode .el-message-box__title,
+.dark-mode .el-popover__title,
+.dark-mode .el-select-dropdown__item,
+.dark-mode .el-select-dropdown__item.selected {
+  color: #d4d4d4;
+}
+
+.dark-mode .el-button {
+  background-color: var(--button-default-bg);
+  border-color: var(--button-default-border);
+  color: var(--button-default-text);
+}
+
+.dark-mode .el-button--primary {
+  background-color: var(--button-primary-bg);
+  border-color: var(--button-primary-bg);
+  color: var(--button-primary-text);
+}
+
+.dark-mode .el-tag {
+  background-color: var(--tag-background);
+  color: var(--tag-color);
+  border-color: var(--border-color);
+}
+
+.dark-mode a {
+  color: #79a9d6; /* Softer blue for links in dark mode */
 }

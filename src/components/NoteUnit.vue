@@ -118,6 +118,8 @@ export default {
   cursor: pointer;
   border-radius: 15px;
   border: none;
+  margin-bottom: 5px;
+  width: 100%;
 }
 
 .note-list-unit.active {
@@ -132,7 +134,14 @@ export default {
 }
 
 .dark-mode .note-list-unit.active {
-  background: #444444;
-  color: white;
+  background: #3a3a3a; /* Lighter than #444444 for less contrast */
+  color: #d4d4d4; /* Softer white color */
+}
+
+@media (max-width: 768px) {
+  .note-list-unit {
+    margin-bottom: 8px;
+    border-radius: 10px;
+  }
 }
 </style>

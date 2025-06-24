@@ -32,19 +32,19 @@
         ref="editor"
         v-model="mynote.body"
         class="margin-bottom10"
-        style="height: 700px; overflow-y: scroll"
+        style="height: 700px; overflow-y: auto; max-width: 100%; overflow-x: hidden;"
       ></vue-editor>
     </div>
-    <div v-else style="height: 90vh; padding: 10px;overflow-y: scroll;">
-      <h3>Title: {{ mynote.title }}</h3>
+    <div v-else style="height: 90vh; padding: 10px; overflow-y: auto; overflow-x: hidden; box-sizing: border-box; max-width: 100%;">
+      <h3>{{ mynote.title }}</h3>
       <div>
         Tags:
         <el-tag v-for="tag1 in tags || []" :key="tag1 + 'def'">{{
           tag1
         }}</el-tag>
       </div>
-      <div style="border-color: grey; border-width: 2px;">
-        <div v-html="mynote.body"></div>
+      <div style="border-color: grey; border-width: 2px; max-width: 100%; overflow-x: hidden;">
+        <div v-html="mynote.body" style="max-width: 100%; overflow-wrap: break-word; word-wrap: break-word;"></div>
       </div>
     </div>
   </el-row>
@@ -123,10 +123,25 @@ export default {
 .quillWrapper {
   overflow: unset !important;
   height: 75vh !important;
+  max-width: 100%;
 }
 
 .ql-container {
   height: 70vh !important;
+  max-width: 100%;
+}
+
+/* Make sure editor content wraps properly */
+.ql-editor {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  max-width: 100%;
+}
+
+/* Make sure images don't overflow */
+.ql-editor img {
+  max-width: 100%;
+  height: auto;
 }
 
 /* Dark mode styles for editor */
@@ -147,11 +162,11 @@ export default {
 }
 
 .dark-mode .ql-snow .ql-stroke {
-  stroke: var(--text-color);
+  stroke: var(--icon-color); /* Use softer icon color */
 }
 
 .dark-mode .ql-snow .ql-fill {
-  fill: var(--text-color);
+  fill: var(--icon-color); /* Use softer icon color */
 }
 
 .dark-mode .ql-snow.ql-toolbar button:hover,
@@ -166,7 +181,7 @@ export default {
 .dark-mode .ql-snow .ql-toolbar .ql-picker-item:hover,
 .dark-mode .ql-snow.ql-toolbar .ql-picker-item.ql-selected,
 .dark-mode .ql-snow .ql-toolbar .ql-picker-item.ql-selected {
-  color: var(--button-primary-bg);
+  color: #79a9d6; /* Softer blue for active states */
 }
 
 .dark-mode .ql-snow.ql-toolbar button:hover .ql-stroke,
@@ -181,7 +196,7 @@ export default {
 .dark-mode .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke,
 .dark-mode .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke,
 .dark-mode .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke {
-  stroke: var(--button-primary-bg);
+  stroke: #79a9d6; /* Softer blue for active states */
 }
 
 /* Style the view mode in dark theme */

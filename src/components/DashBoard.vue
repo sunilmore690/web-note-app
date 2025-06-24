@@ -1,6 +1,6 @@
 <template>
   <el-row>
-    <el-col :span="8" :xs="24">
+    <el-col :span="8" :xs="24" class="sidelist-column" :style="{ display: isDeviceMobile && mode === 'view' ? 'none' : 'flex' }">
       <SideList
         @setnote="handleSetNote"
         @addnote="handleAddNote"
@@ -16,7 +16,7 @@
       :xs="24"
       v-if="isDeviceMobile"
       class="notemobile"
-      :style="{ display: mode === 'view' ? 'inherit' : 'none' }"
+      :style="{ display: mode === 'view' ? 'block' : 'none' }"
     >      <div style="padding-bottom: 5px; display: flex; justify-content: space-between; align-items: center">
         <div style="flex: 1; text-align: left;">
           <i
@@ -221,18 +221,18 @@ export default {
       }
 
       // Add window resize event listener to update isMobile state
-      window.addEventListener('resize', () => {
+      this.resizeHandler = () => {
         this.isMobile = this.checkIfMobile();
-      });
+      };
+
+      window.addEventListener('resize', this.resizeHandler);
     } catch (e) {
       this.notes = [];
     }
   },
   beforeDestroy() {
     // Clean up event listener
-    window.removeEventListener('resize', () => {
-      this.isMobile = this.checkIfMobile();
-    });
+    window.removeEventListener('resize', this.resizeHandler);
   },
 };
 </script>
@@ -240,14 +240,17 @@ export default {
 .notemobile {
   padding: 10px;
   position: fixed !important;
-  top: 0px;
-  left: 0px;
+  top: 0;
+  left: 0;
   background: var(--background-color, white);
   z-index: 400;
   width: 100%;
+  max-width: 100vw;
   height: 100vh;
   overflow-y: auto;
+  overflow-x: hidden;
   box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+  box-sizing: border-box;
 }
 
 .note {
@@ -270,7 +273,33 @@ export default {
   background-color: rgba(0,0,0,0.05);
 }
 
+.dark-mode .mobile-action-button {
+  color: var(--icon-color); /* Use the softer icon color */
+}
+
 .dark-mode .mobile-action-button:hover {
-  background-color: rgba(255,255,255,0.1);
+  background-color: rgba(255,255,255,0.08); /* Reduced opacity for softer effect */
+}
+
+.sidelist-column {
+  height: 100vh;
+  overflow: hidden;
+  max-height: 100vh;
+  display: flex;
+}
+
+@media (max-width: 768px) {
+  .sidelist-column {
+    height: calc(100vh - 60px); /* Account for header */
+    max-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Hide when in view mode */
+  .sidelist-column[style*="display: none"] + .notemobile {
+    height: 100vh;
+  }
 }
 </style>
