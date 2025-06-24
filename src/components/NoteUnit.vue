@@ -90,7 +90,7 @@ export default {
           const options = { year: "numeric", month: "long", day: "numeric" };
          return date.toLocaleDateString("en-US", options);
         }
-        
+
       }
     },
     formatDate(date) {
@@ -111,13 +111,29 @@ export default {
 </script>
 <style scoped>
 .note-list-unit {
-  box-shadow: 0 5px 12px 0#e4e4e461;
+  /* box-shadow: 0 5px 12px var(--shadow-color); */
   cursor: pointer;
   border-radius: 15px;
-  border:none;
+  border: none;
+  /* transition: all 0.3s ease; */
 }
 .note-list-unit.active {
-  background: grey;
-  color: white;
+  background: #e0e0e0;
+  color: #333333;
+}
+
+/* .note-list-unit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px var(--shadow-color);
+} */
+
+.dark-mode .note-list-unit {
+  background-color: var(--card-background);
+  color: var(--text-color);
+}
+
+.dark-mode .note-list-unit.active {
+  background: #444444;
+  color: #ffffff;
 }
 </style>

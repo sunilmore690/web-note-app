@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app-container" :class="darkMode ? 'dark-mode' : 'light-mode'">
     <div :style="{ marginBottom: '10px'}">
       <el-dialog title="About Us" :visible.sync="dialogVisible" width="90%" >
         <p :style="{fontSize:'medium'}">
@@ -13,6 +13,7 @@
              <li> Search the notes by Title or Tag </li>
              <li> Filter the notes by tag </li>
              <li> Backup and Restore your notes</li>
+             <li> Dark Mode for comfortable reading</li>
            </ul>
            To ensure that your notes are always safe and
           secure, our app also offers a backup and restore function. This means
@@ -28,8 +29,8 @@
         </p>
       </el-dialog>
       <el-row>
-        <el-col :sm="10"
-          ><span :style="{ fontSize: '25px', fontWeight: 700 }">Take Note</span>
+        <el-col :sm="8" :xs="12"
+          ><span :style="{ fontSize: '25px', fontWeight: 700 }">Note App</span>
           &nbsp;<span
             >By <a href="https://sunilmore.com" target="_blank"> Sunil More</a>
           </span>
@@ -37,12 +38,22 @@
             >About Us</el-button
           ></el-col
         >
-       
-        <el-col :sm="6">
+
+        <el-col :sm="4" :xs="12">
           <BackupRestore v-show="isMobile() ? false:true"/> 
         </el-col>
-        <el-col :sm="2">
-          
+        <el-col :sm="4" :xs="12" class="theme-toggle-container">
+          <div class="theme-switch-wrapper">
+            <i class="el-icon-moon theme-icon"></i>
+            <el-switch
+              v-model="darkMode"
+              @change="toggleDarkMode"
+              active-color="#1a1a1a"
+              inactive-color="#555555"
+              class="theme-switch"
+            ></el-switch>
+            <i class="el-icon-sunny theme-icon"></i>
+          </div>
         </el-col>
       </el-row>
     </div>
@@ -60,11 +71,36 @@ export default {
   data() {
     return {
       dialogVisible: false,
+      darkMode: false
     };
   },
-  methods : {
-    isMobile(){
+  created() {
+    // Check if user has a saved preference
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      this.darkMode = savedTheme === 'dark';
+    } else {
+      // Check if user's device prefers dark mode
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      this.darkMode = prefersDark;
+    }
+
+    // Apply theme to document body
+    this.applyTheme();
+  },
+  methods: {
+    isMobile() {
       return window.isMobile;
+    },
+    toggleDarkMode() {
+      // Save user preference
+      localStorage.setItem('theme', this.darkMode ? 'dark' : 'light');
+      this.applyTheme();
+    },
+    applyTheme() {
+      // Apply theme to document body for global styling
+      document.body.classList.toggle('dark-mode', this.darkMode);
+      document.body.classList.toggle('light-mode', !this.darkMode);
     }
   },
   components: {
@@ -80,7 +116,67 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
   margin-top: 30px;
+}
+
+.theme-toggle-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.theme-switch-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.theme-icon {
+  margin: 0 8px;
+  font-size: 18px;
+  color: var(--icon-color);
+  transition: all 0.3s ease;
+}
+
+.el-icon-moon {
+  color: #555;
+}
+
+.el-icon-sunny {
+  color: #E6A23C;
+}
+
+.dark-mode .el-icon-moon {
+  color: #555;
+}
+
+.dark-mode .el-icon-sunny {
+  color: #E6A23C;
+}
+
+.theme-switch {
+  transform: scale(1.2);
+}
+
+.app-container {
+  min-height: 100vh;
+  padding: 10px;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .theme-toggle-container {
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  .theme-switch {
+    transform: scale(1);
+  }
+
+  #app {
+    margin-top: 15px;
+  }
 }
 </style>

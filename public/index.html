@@ -5,9 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="author" content="Sunil More">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A note app PWA that lets you store notes offline, sort them by date, search by title or tag, filter by tag, and backup and restore your notes.">
-    <meta name="keywords" content="note app, PWA, offline, sorting, searching, filtering, backup, restore">
-    <meta name="theme-color" content="#ffffff">
+    <meta name="description" content="A note app PWA that lets you store notes offline, sort them by date, search by title or tag, filter by tag, backup and restore your notes, and supports dark mode.">
+    <meta name="keywords" content="note app, PWA, offline, sorting, searching, filtering, backup, restore, dark mode">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)">
+    <meta name="color-scheme" content="light dark">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="/favicon.ico">
     <script>
@@ -17,21 +19,30 @@
         return check;
       };
       window.isMobile = ( ( window.innerWidth <= 800 ) && ( window.innerHeight <= 900 ) );
-      
-      // alert(window.innerWidth)
-      // alert(window.innerHeight)
-      // alert('mobile=>'+window.mobileCheck())
+
+      // Detect system preference for dark mode
+      window.prefersDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+      // Get user's saved preference or use system preference
+      window.userTheme = localStorage.getItem('theme') || (window.prefersDarkMode ? 'dark' : 'light');
     </script>
     <title>Note App - Store your notes Offline</title>
   </head>
-  <body >
+  <body>
     <noscript>
       <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
     <script>
-      document.body.style.backgroundColor =  '#e4e4e461';
+      // Set initial body class based on theme preference
+      if (window.userTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+        document.body.classList.remove('light-mode');
+      } else {
+        document.body.classList.add('light-mode');
+        document.body.classList.remove('dark-mode');
+      }
     </script>
   </body>
 </html>

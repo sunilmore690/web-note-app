@@ -1,6 +1,6 @@
 <template>
   <el-row>
-    <div >
+    <div>
       <el-row v-if="!isMobile">
         <el-col :span="8">
           <div style="text-align: left">
@@ -49,6 +49,33 @@
             >
           </div>
         </el-col>
+        <el-col :span="12" style="text-align: right">
+          <el-dropdown trigger="click" @command="handleSortCommand" style="margin-right: 15px">
+            <span class="el-dropdown-link">
+              {{ getSortLabel() }}<i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item v-for="item in sortOptions" :key="item.value" :command="item.value">
+                {{ item.label }}
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+
+          <el-dropdown trigger="click" @command="handleTagSelect" style="margin-right: 5px">
+            <span class="el-dropdown-link">
+              Tags<i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item v-for="tag in tags" :key="tag + 'mobile'" :command="tag">
+                <el-checkbox v-model="tagSelection[tag]" @change.stop>{{ tag }}</el-checkbox>
+              </el-dropdown-item>
+              <el-dropdown-item divided command="apply">Apply Filters</el-dropdown-item>
+              <el-dropdown-item command="clear">Clear Filters</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </el-col>
+      </el-row>
+      <el-row v-if="isMobile">
         <el-col :span="3" :offset="2" style="padding-top: 5px;">
           <span
             @click="dialogVisible = true"
@@ -94,12 +121,13 @@
                 </el-select>
               </el-col>
               <el-col :span="24" style="padding-top: 20px;">
-                <BackupRestore/> 
+                <BackupRestore/>
               </el-col>
             </el-row>
           </el-dialog>
         </el-col>
-        <el-col :span="5" >
+        <el-col :span="5" v-if="false">
+          <!-- Remove duplicate Add Note button -->
           <el-button size="small" round @click="addNote()" class="add-note-btn"
             >+ Add Note</el-button
           >
@@ -107,58 +135,71 @@
       </el-row>
 
       <el-row v-show="!isMobile">
-        <el-col :span="12" :style="{ paddingTop: '10px' }">
-          <el-popover
-            v-show="isMobile ? false : true"
-            placement="top"
-            width="160"
-            v-model="visible"
-          >
-            <p>Are you sure to delete this?</p>
-            <div style="text-align: right; margin: 0">
-              <el-button size="mini" type="text" @click="visible = false"
-                >cancel</el-button
+        <el-col :span="24">
+          <div class="button-container">
+            <div class="left-buttons">
+              <el-popover
+                placement="top"
+                width="160"
+                v-model="visible"
               >
-              <el-button
-                type="primary"
-                size="mini"
-                @click="
-                  handleRemove(note);
-                  visible = false;
-                "
-                >confirm</el-button
+                <p>Are you sure to delete this?</p>
+                <div style="text-align: right; margin: 0">
+                  <el-button size="mini" type="text" @click="visible = false"
+                    >cancel</el-button
+                  >
+                  <el-button
+                    type="primary"
+                    size="mini"
+                    @click="
+                      handleRemove(note);
+                      visible = false;
+                    "
+                    >confirm</el-button
+                  >
+                </div>
+                <el-button
+                  slot="reference"
+                  icon="el-icon-delete"
+                  round
+                  size="mini"
+                  :disabled="!note"
+                ></el-button>
+              </el-popover>
+            </div>
+            <div class="right-buttons">
+              <el-button size="small" round @click="addNote()" class="add-note-btn"
+                >+ Add Note</el-button
               >
             </div>
-            <el-button
-              slot="reference"
-              icon="el-icon-delete"
-              round
-              size="mini"
-            ></el-button> </el-popover
-        ></el-col>
-        <el-col :offset="6" :span="4" >
-          <el-button size="small" round @click="addNote()" class="add-note-btn"
-            >+ Add Note</el-button
-          >
+          </div>
         </el-col>
-        <el-col :span="2">&nbsp;</el-col>
       </el-row>
-    </div>
-    <div style="margin-bottom: 10px">
-      <el-input placeholder="search notes ..." v-model="search" clearable>
-      </el-input>
-    </div>
-    <div style="max-height: calc(100vh - 200px);; overflow-y: auto">
-      <div
-        v-for="noteobj in mynotes"
-        @click.prevent="setNote(noteobj)"
-        :key="noteobj.id"
-      >
-        <note-unit
-          :noteobj="noteobj"
-          :note="note"
-          @removenote="handleRemove"
-        ></note-unit>
+
+      <div style="margin-bottom: 10px">
+        <el-input placeholder="search notes ..." v-model="search" clearable>
+        </el-input>
+      </div>
+      <div class="note-list">
+        <div
+          v-for="noteobj in mynotes"
+          @click.prevent="setNote(noteobj)"
+          :key="noteobj.id"
+          class="note-item"
+        >
+          <note-unit
+            :noteobj="noteobj"
+            :note="note"
+            @removenote="handleRemove"
+          ></note-unit>
+        </div>
+      </div>
+
+      <!-- Mobile Bottom Action Bar -->
+      <div v-if="isMobile" class="mobile-bottom-bar">
+        <el-button type="primary" icon="el-icon-plus" circle @click="addNote()"></el-button>
+        <el-button type="info" icon="el-icon-search" circle @click="focusSearch"></el-button>
+        <el-button v-if="note" type="danger" icon="el-icon-delete" circle @click="confirmDelete"></el-button>
       </div>
     </div>
   </el-row>
@@ -196,6 +237,8 @@ export default {
       close: false,
       sortBy: "updatedDesc",
       selectedTags: [],
+      tagSelection: {},
+      deleteConfirmVisible: false
     };
   },
   watch: {
@@ -266,9 +309,52 @@ export default {
         );
       });
     },
+    getSortLabel() {
+      const option = this.sortOptions.find(opt => opt.value === this.sortBy);
+      return option ? option.label : 'Sort';
+    },
+    handleSortCommand(command) {
+      this.sortBy = command;
+    },
+    handleTagSelect(command) {
+      if (command === 'apply') {
+        this.selectedTags = Object.keys(this.tagSelection).filter(tag => this.tagSelection[tag]);
+        this.handleTagChange();
+      } else if (command === 'clear') {
+        this.selectedTags = [];
+        this.tagSelection = {};
+        this.mynotes = this.notes;
+      } else {
+        // Toggle the tag selection
+        this.tagSelection[command] = !this.tagSelection[command];
+      }
+    },
+    focusSearch() {
+      this.$nextTick(() => {
+        const searchInput = this.$el.querySelector('input[type="text"]');
+        if (searchInput) searchInput.focus();
+      });
+    },
+    confirmDelete() {
+      this.$confirm('Are you sure you want to delete this note?', 'Warning', {
+        confirmButtonText: 'Delete',
+        cancelButtonText: 'Cancel',
+        type: 'warning'
+      }).then(() => {
+        this.handleRemove(this.note);
+      }).catch(() => {
+        // Cancelled
+      });
+    }
   },
   mounted() {
     this.sortNotes();
+    // Initialize tagSelection object
+    if (this.tags && this.tags.length) {
+      this.tags.forEach(tag => {
+        this.$set(this.tagSelection, tag, false);
+      });
+    }
   },
   components: {
     NoteUnit,
@@ -277,4 +363,80 @@ export default {
 };
 </script>
 <style scoped>
+.note-list {
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+.note-item {
+  margin-bottom: 10px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.search-container {
+  margin-bottom: 15px;
+}
+
+.note-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mobile-bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--card-background);
+  padding: 10px;
+  box-shadow: 0 -2px 10px var(--shadow-color);
+  z-index: 100;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.mobile-bottom-bar .el-button {
+  margin: 0 5px;
+}
+
+.el-dropdown-link {
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+/* Button alignment styling */
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+  padding: 5px 0;
+}
+
+.left-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.right-buttons {
+  display: flex;
+  align-items: center;
+}
+
+/* Hide delete button when no note is selected */
+.el-button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .note-list {
+    max-height: calc(100vh - 200px);
+    padding-bottom: 70px;
+  }
+}
 </style>

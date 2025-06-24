@@ -108,7 +108,7 @@ export default {
       tags: [],
       isMobile: window.isMobile,
       visible: false,
-      editMode:false
+      editMode:false,
     };
   },
   components: {
