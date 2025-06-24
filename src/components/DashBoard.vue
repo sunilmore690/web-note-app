@@ -218,11 +218,12 @@ export default {
   position: fixed !important;
   top: 0px;
   left: 0px;
-  background: white;
+  background: var(--background-color, white);
   z-index: 400;
   /* padding-right: 5px !important; */
   width: 100%;
 }
+
 .note {
   padding-left: 10px;
 }

@@ -115,7 +115,7 @@ export default {
   },
 };
 </script>
-<style >
+<style>
 .note {
   padding-left: 20px;
 }
@@ -124,7 +124,68 @@ export default {
   overflow: unset !important;
   height: 75vh !important;
 }
+
 .ql-container {
   height: 70vh !important;
+}
+
+/* Dark mode styles for editor */
+.dark-mode .ql-editor {
+  color: var(--editor-text);
+  background-color: var(--editor-background);
+}
+
+.dark-mode .ql-toolbar.ql-snow {
+  border-color: var(--border-color);
+  background-color: var(--editor-background);
+}
+
+.dark-mode .ql-toolbar.ql-snow .ql-picker-label,
+.dark-mode .ql-toolbar.ql-snow .ql-picker-options {
+  background-color: var(--editor-background);
+  color: var(--text-color);
+}
+
+.dark-mode .ql-snow .ql-stroke {
+  stroke: var(--text-color);
+}
+
+.dark-mode .ql-snow .ql-fill {
+  fill: var(--text-color);
+}
+
+.dark-mode .ql-snow.ql-toolbar button:hover,
+.dark-mode .ql-snow .ql-toolbar button:hover,
+.dark-mode .ql-snow.ql-toolbar button.ql-active,
+.dark-mode .ql-snow .ql-toolbar button.ql-active,
+.dark-mode .ql-snow.ql-toolbar .ql-picker-label:hover,
+.dark-mode .ql-snow .ql-toolbar .ql-picker-label:hover,
+.dark-mode .ql-snow.ql-toolbar .ql-picker-label.ql-active,
+.dark-mode .ql-snow .ql-toolbar .ql-picker-label.ql-active,
+.dark-mode .ql-snow.ql-toolbar .ql-picker-item:hover,
+.dark-mode .ql-snow .ql-toolbar .ql-picker-item:hover,
+.dark-mode .ql-snow.ql-toolbar .ql-picker-item.ql-selected,
+.dark-mode .ql-snow .ql-toolbar .ql-picker-item.ql-selected {
+  color: var(--button-primary-bg);
+}
+
+.dark-mode .ql-snow.ql-toolbar button:hover .ql-stroke,
+.dark-mode .ql-snow .ql-toolbar button:hover .ql-stroke,
+.dark-mode .ql-snow.ql-toolbar button.ql-active .ql-stroke,
+.dark-mode .ql-snow .ql-toolbar button.ql-active .ql-stroke,
+.dark-mode .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke,
+.dark-mode .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke,
+.dark-mode .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke,
+.dark-mode .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke,
+.dark-mode .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke,
+.dark-mode .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke,
+.dark-mode .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke,
+.dark-mode .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke {
+  stroke: var(--button-primary-bg);
+}
+
+/* Style the view mode in dark theme */
+.dark-mode h3 {
+  color: var(--text-color);
 }
 </style>

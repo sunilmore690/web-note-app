@@ -1,0 +1,751 @@
+/* Dark theme for Note App */
+
+.dark-mode {
+  --background-color: #1a1a1a;
+  --text-color: #f5f5f5;
+  --border-color: #444444;
+  --card-background: #2d2d2d;
+  --hover-color: #3a3a3a;
+  --input-background: #333333;
+  --tag-background: #444444;
+  --tag-color: #eeeeee;
+  --icon-color: #cccccc;
+  --editor-background: #2d2d2d;
+  --editor-text: #f5f5f5;
+  --button-primary: #555555;
+  --button-text: #ffffff;
+  --button-default-bg: #333333;
+  --button-default-text: #f5f5f5;
+  --button-default-border: #555555;
+  --button-primary-bg: #555555;
+  --button-primary-text: #ffffff;
+  --button-success-bg: #67C23A;
+  --button-success-text: #ffffff;
+  --button-warning-bg: #E6A23C;
+  --button-warning-text: #ffffff;
+  --button-danger-bg: #F56C6C;
+  --button-danger-text: #ffffff;
+  --button-info-bg: #909399;
+  --button-info-text: #ffffff;
+  --shadow-color: rgba(0, 0, 0, 0.5);
+}
+
+.light-mode {
+  --background-color: #ffffff;
+  --text-color: #303133;
+  --border-color: #e4e7ed;
+  --card-background: #ffffff;
+  --hover-color: #f5f7fa;
+  --input-background: #ffffff;
+  --tag-background: #ecf5ff;
+  --tag-color: #409EFF;
+  --icon-color: #606266;
+  --editor-background: #ffffff;
+  --editor-text: #303133;
+  --button-primary: #409EFF;
+  --button-text: #ffffff;
+  --button-default-bg: #ffffff;
+  --button-default-text: #606266;
+  --button-default-border: #dcdfe6;
+  --button-primary-bg: #409EFF;
+  --button-primary-text: #ffffff;
+  --button-success-bg: #67C23A;
+  --button-success-text: #ffffff;
+  --button-warning-bg: #E6A23C;
+  --button-warning-text: #ffffff;
+  --button-danger-bg: #F56C6C;
+  --button-danger-text: #ffffff;
+  --button-info-bg: #909399;
+  --button-info-text: #ffffff;
+  --shadow-color: rgba(0, 0, 0, 0.12);
+}
+
+/* Apply theme variables */
+.app-container {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+/* Apply transition only in dark mode */
+.dark-mode.app-container {
+  transition: all 0.3s ease;
+}
+
+/* Element UI overrides for dark mode */
+.dark-mode .el-card {
+  background-color: var(--card-background);
+  border-color: var(--border-color);
+  color: var(--text-color);
+}
+
+.dark-mode .el-input__inner,
+.dark-mode .el-textarea__inner {
+  background-color: var(--input-background);
+  border-color: var(--border-color);
+  color: var(--text-color);
+}
+
+.dark-mode .el-button--text {
+  color: var(--button-primary);
+}
+
+.dark-mode .el-dialog,
+.dark-mode .el-popover {
+  background-color: var(--card-background);
+  border-color: var(--border-color);
+}
+
+.dark-mode .el-dialog__title,
+.dark-mode .el-popover__title {
+  color: var(--text-color);
+}
+
+.dark-mode .el-dialog__body,
+.dark-mode .el-popover__reference {
+  color: var(--text-color);
+}
+
+.dark-mode .el-tag {
+  background-color: var(--tag-background);
+  color: var(--tag-color);
+  border-color: var(--border-color);
+}
+
+.dark-mode .ql-toolbar,
+.dark-mode .ql-container {
+  background-color: var(--editor-background);
+  color: var(--editor-text);
+  border-color: var(--border-color);
+}
+
+.dark-mode .ql-editor {
+  background-color: var(--editor-background);
+  color: var(--editor-text);
+}
+
+.dark-mode .ql-editor p,
+.dark-mode .ql-editor h1,
+.dark-mode .ql-editor h2,
+.dark-mode .ql-editor h3,
+.dark-mode .ql-editor h4,
+.dark-mode .ql-editor h5,
+.dark-mode .ql-editor h6,
+.dark-mode .ql-editor ul,
+.dark-mode .ql-editor ol {
+  color: var(--editor-text);
+}
+
+.dark-mode .el-tabs__item {
+  color: var(--text-color);
+}
+
+.dark-mode .el-select-dropdown {
+  background-color: var(--card-background);
+  border-color: var(--border-color);
+}
+
+.dark-mode .el-select-dropdown__item {
+  color: var(--text-color);
+}
+
+.dark-mode .el-select-dropdown__item.hover,
+.dark-mode .el-select-dropdown__item:hover {
+  background-color: var(--hover-color);
+}
+
+/* Dark mode for links */
+.dark-mode a {
+  color: #cccccc;
+}
+
+/* Toggle button styling */
+.theme-toggle {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.theme-toggle-icon {
+  font-size: 20px;
+  transition: transform 0.3s ease;
+}
+
+.dark-mode .theme-toggle-icon {
+  transform: rotate(180deg);
+}
+
+/* Button styling for dark mode */
+.dark-mode .el-button {
+  transition: all 0.3s ease;
+}
+
+/* Default button style in dark mode */
+.dark-mode .el-button--default {
+  background-color: var(--button-default-bg);
+  border-color: var(--button-default-border);
+  color: var(--button-default-text);
+}
+
+.dark-mode .el-button--default:hover,
+.dark-mode .el-button--default:focus {
+  background-color: #3a3a3a;
+  border-color: #666666;
+  color: #ffffff;
+}
+
+/* Primary button in dark mode */
+.dark-mode .el-button--primary {
+  background-color: var(--button-primary-bg);
+  border-color: var(--button-primary-bg);
+  color: var(--button-primary-text);
+}
+
+/* Success button in dark mode */
+.dark-mode .el-button--success {
+  background-color: var(--button-success-bg);
+  border-color: var(--button-success-bg);
+  color: var(--button-success-text);
+}
+
+/* Warning button in dark mode */
+.dark-mode .el-button--warning {
+  background-color: var(--button-warning-bg);
+  border-color: var(--button-warning-bg);
+  color: var(--button-warning-text);
+}
+
+/* Danger button in dark mode */
+.dark-mode .el-button--danger {
+  background-color: var(--button-danger-bg);
+  border-color: var(--button-danger-bg);
+  color: var(--button-danger-text);
+}
+
+/* Info button in dark mode */
+.dark-mode .el-button--info {
+  background-color: var(--button-info-bg);
+  border-color: var(--button-info-bg);
+  color: var(--button-info-text);
+}
+
+/* Round buttons in dark mode */
+.dark-mode .el-button.is-round {
+  border-radius: 20px;
+}
+
+/* Circle buttons in dark mode */
+.dark-mode .el-button.is-circle {
+  border-radius: 50%;
+  padding: 12px;
+}
+
+/* Small button adjustments */
+.dark-mode .el-button--small {
+  padding: 9px 15px;
+  font-size: 12px;
+  border-radius: 3px;
+}
+
+/* Mini button adjustments */
+.dark-mode .el-button--mini {
+  padding: 7px 13px;
+  font-size: 12px;
+  border-radius: 3px;
+}
+
+/* Disabled button styles */
+.dark-mode .el-button.is-disabled,
+.dark-mode .el-button.is-disabled:hover,
+.dark-mode .el-button.is-disabled:focus {
+  color: #999;
+  background-color: #252525;
+  border-color: #444;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Dark mode styles for disabled buttons */
+.dark-mode .el-button[disabled],
+.dark-mode .el-button.is-disabled {
+  background-color: #333;
+  color: #777;
+  border-color: #444;
+  opacity: 0.6;
+}
+
+/* Add note button styling */
+.dark-mode .add-note-btn {
+  background-color: #555555;
+  color: white;
+  border: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.dark-mode .add-note-btn:hover {
+  background-color: #666666;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Ensure button vertical alignment */
+.button-container .el-button {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+/* Custom styling for mobile bottom bar buttons */
+.dark-mode .mobile-bottom-bar .el-button {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Mobile bottom bar button styling for dark mode */
+.dark-mode .mobile-bottom-bar .el-button--primary {
+  background-color: #555555;
+  border-color: #555555;
+}
+
+.dark-mode .mobile-bottom-bar .el-button--info {
+  background-color: #444444;
+  border-color: #444444;
+}
+
+.dark-mode .mobile-bottom-bar .el-button--danger {
+  background-color: #d43c3c;
+  border-color: #d43c3c;
+}
+
+/* Make mobile bottom buttons larger and more distinct */
+.mobile-bottom-bar .el-button {
+  width: 50px;
+  height: 50px;
+  font-size: 20px;
+  margin: 0 10px;
+  transition: all 0.3s ease;
+}
+
+.mobile-bottom-bar .el-button:hover,
+.mobile-bottom-bar .el-button:focus {
+  transform: translateY(-3px);
+}
+
+.dark-mode .mobile-bottom-bar .el-button [class*="el-icon-"] {
+  color: white;
+}
+
+/* Icon color adjustments for dark mode */
+.dark-mode .el-icon-back,
+.dark-mode .el-icon-edit,
+.dark-mode .el-icon-view,
+.dark-mode .el-icon-delete,
+.dark-mode .el-icon-plus,
+.dark-mode .el-icon-search,
+.dark-mode .el-icon-sunny,
+.dark-mode .el-icon-moon,
+.dark-mode .el-icon-s-operation {
+  color: var(--icon-color);
+}
+
+/* Add note button enhancement for both modes */
+.add-note-btn {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  font-weight: 600;
+  border: none;
+}
+
+/* Only apply hover effect in dark mode */
+.dark-mode .add-note-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.light-mode .add-note-btn {
+  background-color: #555555;
+  color: white;
+}
+
+.dark-mode .floating-action-button {
+  background-color: #555555;
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.light-mode .floating-action-button {
+  background-color: #555555;
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Custom message boxes in dark mode */
+.dark-mode .el-message-box {
+  background-color: var(--card-background);
+  border-color: var(--border-color);
+}
+
+.dark-mode .el-message-box__title,
+.dark-mode .el-message-box__message {
+  color: var(--text-color);
+}
+
+.dark-mode .el-message-box__headerbtn .el-message-box__close {
+  color: var(--text-color);
+}
+
+/* Make sure checkboxes are visible in dark mode */
+.dark-mode .el-checkbox__input.is-checked .el-checkbox__inner,
+.dark-mode .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+  background-color: var(--button-primary-bg);
+  border-color: var(--button-primary-bg);
+}
+
+.dark-mode .el-checkbox__inner {
+  background-color: var(--input-background);
+  border-color: var(--border-color);
+}
+
+.dark-mode .el-checkbox__label {
+  color: var(--text-color);
+}
+
+/* Fix button contrast issues and popovers in dark mode */
+.dark-mode .el-popover {
+  background-color: var(--card-background);
+  border-color: var(--border-color);
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .el-popover__title {
+  color: var(--text-color);
+}
+
+.dark-mode .el-popconfirm__action {
+  margin-top: 8px;
+}
+
+.dark-mode .el-popover p {
+  color: var(--text-color);
+}
+
+/* Input styling for dark mode */
+.dark-mode .el-input__inner {
+  background-color: var(--input-background);
+  border-color: var(--border-color);
+  color: var(--text-color);
+}
+
+.dark-mode .el-input__inner:focus {
+  border-color: var(--button-primary-bg);
+}
+
+.dark-mode .el-input__suffix {
+  color: var(--icon-color);
+}
+
+.dark-mode .el-input.is-active .el-input__inner {
+  border-color: var(--button-primary-bg);
+}
+
+/* Search input styling */
+.dark-mode .el-input .el-input__clear {
+  color: var(--icon-color);
+  background-color: transparent;
+}
+
+.dark-mode .el-input .el-input__clear:hover {
+  color: #fff;
+}
+
+/* Dropdown styling */
+.dark-mode .el-dropdown-menu {
+  background-color: var(--card-background);
+  border-color: var(--border-color);
+}
+
+.dark-mode .el-dropdown-menu__item {
+  color: var(--text-color);
+}
+
+.dark-mode .el-dropdown-menu__item:hover,
+.dark-mode .el-dropdown-menu__item:focus {
+  background-color: var(--hover-color);
+}
+
+.dark-mode .el-dropdown-menu__item.is-disabled {
+  color: #999;
+  cursor: not-allowed;
+}
+
+.dark-mode .el-dropdown-menu__item--divided {
+  border-top-color: var(--border-color);
+}
+
+/* Loading indicator */
+.dark-mode .el-loading-mask {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.dark-mode .el-loading-spinner .path {
+  stroke: var(--button-primary-bg);
+}
+
+.dark-mode .el-loading-spinner .el-loading-text {
+  color: var(--text-color);
+}
+
+/* Switch component styling */
+.el-switch {
+  margin: 0 4px;
+}
+
+.el-switch__core {
+  border: 1px solid var(--border-color);
+  background-color: var(--background-color);
+}
+
+.el-switch.is-checked .el-switch__core {
+  border-color: var(--button-primary-bg);
+  background-color: var(--button-primary-bg);
+}
+
+.dark-mode .el-switch__core {
+  border-color: #555;
+  background-color: #222;
+}
+
+.dark-mode .el-switch.is-checked .el-switch__core {
+  border-color: var(--button-primary-bg);
+  background-color: var(--button-primary-bg);
+}
+
+.dark-mode .el-switch__label {
+  color: var(--text-color);
+}
+
+/* Add some animation to the switch */
+.el-switch__core:after {
+  transition: all 0.3s ease;
+}
+
+.el-switch.is-checked .el-switch__core:after {
+  transform: translateX(100%);
+}
+
+/* Custom switch size */
+.theme-switch .el-switch__core {
+  width: 50px !important;
+  height: 24px;
+  border-radius: 12px;
+}
+
+.theme-switch .el-switch__core:after {
+  width: 20px;
+  height: 20px;
+  top: 1px;
+  left: 1px;
+  border-radius: 10px;
+}
+
+/* Editor styling for both light and dark modes */
+/* Light mode editor styling */
+.light-mode .ql-toolbar,
+.light-mode .ql-container {
+  background-color: var(--editor-background);
+  color: var(--editor-text);
+  border-color: var(--border-color);
+}
+
+.light-mode .ql-editor {
+  background-color: var(--editor-background);
+  color: var(--editor-text);
+}
+
+.light-mode .ql-editor p,
+.light-mode .ql-editor h1,
+.light-mode .ql-editor h2,
+.light-mode .ql-editor h3,
+.light-mode .ql-editor h4,
+.light-mode .ql-editor h5,
+.light-mode .ql-editor h6,
+.light-mode .ql-editor ul,
+.light-mode .ql-editor ol {
+  color: var(--editor-text);
+}
+
+/* Ensure editor toolbar buttons are visible in both modes */
+.ql-toolbar.ql-snow .ql-formats {
+  margin-right: 10px;
+}
+
+.light-mode .ql-snow .ql-stroke {
+  stroke: #444;
+}
+
+.light-mode .ql-snow .ql-fill {
+  fill: #444;
+}
+
+.dark-mode .ql-snow .ql-stroke {
+  stroke: #ffffff !important;
+}
+
+.dark-mode .ql-snow .ql-fill {
+  fill: #ffffff !important;
+}
+
+.light-mode .ql-snow.ql-toolbar button:hover,
+.light-mode .ql-snow .ql-toolbar button:hover,
+.light-mode .ql-snow.ql-toolbar button.ql-active,
+.light-mode .ql-snow .ql-toolbar button.ql-active {
+  background-color: #f0f0f0;
+}
+
+.dark-mode .ql-snow.ql-toolbar button:hover,
+.dark-mode .ql-snow .ql-toolbar button:hover,
+.dark-mode .ql-snow.ql-toolbar button.ql-active,
+.dark-mode .ql-snow .ql-toolbar button.ql-active {
+  background-color: #444;
+}
+
+.dark-mode .ql-snow.ql-toolbar button:hover .ql-stroke,
+.dark-mode .ql-snow .ql-toolbar button:hover .ql-stroke,
+.dark-mode .ql-snow.ql-toolbar button.ql-active .ql-stroke,
+.dark-mode .ql-snow .ql-toolbar button.ql-active .ql-stroke {
+  stroke: #ffffff;
+}
+
+.dark-mode .ql-snow.ql-toolbar button:hover .ql-fill,
+.dark-mode .ql-snow .ql-toolbar button:hover .ql-fill,
+.dark-mode .ql-snow.ql-toolbar button.ql-active .ql-fill,
+.dark-mode .ql-snow .ql-toolbar button.ql-active .ql-fill {
+  fill: #ffffff;
+}
+
+/* Additional toolbar icon fixes for dark mode */
+.dark-mode .ql-snow .ql-picker.ql-expanded .ql-picker-label .ql-stroke {
+  stroke: #ffffff;
+}
+
+.dark-mode .ql-snow .ql-icon-picker .ql-picker-label svg,
+.dark-mode .ql-snow .ql-color .ql-picker-label svg,
+.dark-mode .ql-snow .ql-header .ql-picker-label svg {
+  stroke: #ffffff;
+}
+
+.dark-mode .ql-snow .ql-color-picker .ql-picker-label svg {
+  stroke: #ffffff;
+  fill: #ffffff;
+}
+
+/* Better styling for text color and background color pickers */
+.dark-mode .ql-snow .ql-color-picker .ql-picker-options,
+.dark-mode .ql-snow .ql-background .ql-picker-options {
+  background-color: #333;
+  border-color: #444;
+  padding: 5px;
+}
+
+/* Ensure editor content area is properly styled */
+.dark-mode .ql-container.ql-snow {
+  border-color: #444;
+}
+
+/* Ensure toolbar separators are visible */
+.dark-mode .ql-formats {
+  border-right: none;
+}
+
+/* Improve picker items in dark mode */
+.dark-mode .ql-snow .ql-picker-item {
+  color: #ffffff;
+}
+
+.dark-mode .ql-snow .ql-picker-item:hover {
+  color: #ffffff;
+  background-color: #444;
+}
+
+.dark-mode .ql-snow .ql-picker-item.ql-selected {
+  color: #ffffff;
+  background-color: #444;
+}
+
+/* Font and size picker styling for dark mode */
+.dark-mode .ql-snow .ql-picker.ql-font .ql-picker-label,
+.dark-mode .ql-snow .ql-picker.ql-size .ql-picker-label,
+.dark-mode .ql-snow .ql-picker.ql-header .ql-picker-label {
+  color: #ffffff;
+}
+
+.dark-mode .ql-snow .ql-picker.ql-font .ql-picker-item,
+.dark-mode .ql-snow .ql-picker.ql-size .ql-picker-item,
+.dark-mode .ql-snow .ql-picker.ql-header .ql-picker-item {
+  color: #ffffff;
+}
+
+/* Ensure picker dropdown is visible */
+.dark-mode .ql-snow .ql-picker.ql-font .ql-picker-options,
+.dark-mode .ql-snow .ql-picker.ql-size .ql-picker-options,
+.dark-mode .ql-snow .ql-picker.ql-header .ql-picker-options {
+  background-color: #333;
+}
+
+/* Ensure all picker labels show white SVG in dark mode */
+.dark-mode .ql-snow .ql-picker-label svg .ql-stroke {
+  stroke: #ffffff;
+}
+
+/* Ensure all toolbar button SVG paths are white */
+.dark-mode .ql-toolbar button svg path {
+  stroke: #ffffff;
+  fill: transparent;
+}
+
+.dark-mode .ql-toolbar button svg polygon {
+  stroke: #ffffff;
+  fill: transparent;
+}
+
+.dark-mode .ql-toolbar button svg line {
+  stroke: #ffffff;
+}
+
+.dark-mode .ql-toolbar button svg rect {
+  stroke: #ffffff;
+  fill: transparent;
+}
+
+/* Special cases for filled icons */
+.dark-mode .ql-snow .ql-toolbar button.ql-background svg path,
+.dark-mode .ql-snow .ql-toolbar button.ql-color svg path {
+  fill: #ffffff;
+}
+
+/* Special cases where fill should be solid */
+.dark-mode .ql-snow .ql-toolbar .ql-fill {
+  fill: #ffffff;
+}
+
+.dark-mode .ql-snow .ql-toolbar .ql-fill.ql-stroke {
+  stroke: #ffffff;
+}
+
+/* Note item styling for dark mode */
+.dark-mode .note-item {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.dark-mode .note-item.active {
+  background-color: #444444;
+}
+
+/* Note item styling for light mode */
+.light-mode .note-item {
+  border-bottom: 1px solid var(--border-color);
+  background-color: #ffffff;
+}
+
+.light-mode .note-item.active {
+  background-color: #e0e0e0;
+}
