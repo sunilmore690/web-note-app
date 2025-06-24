@@ -1,7 +1,7 @@
 <template>
   <el-row>
     <div >
-      <el-row v-if="!isMobile">
+      <el-row v-if="!isDeviceMobile">
         <el-col :span="8">
           <div style="text-align: left">
             <el-select v-model="sortBy" placeholder="Select">
@@ -41,19 +41,18 @@
           </div>
         </el-col>
       </el-row>
-      <el-row v-else style="margin-bottom: 10px">
-        <el-col :span="12" style="padding-top: 5px;">
+      <el-row v-else style="margin-bottom: 10px; display: flex; align-items: center;">
+        <el-col :span="12" style="text-align: left; padding-top: 5px;">
           <div>
             <span style="padding-left: 10px; padding-right: 20px"
               >{{ mynotes.length }} / {{ notes.length }} Notes</span
             >
           </div>
         </el-col>
-        <el-col :span="3" :offset="2" style="padding-top: 5px;">
+        <el-col :span="6" style="text-align: center; padding-top: 5px;">
           <span
             @click="dialogVisible = true"
             style="
-              text-align: right;
               font-size: large;
               padding: 5px;
               border-radius: 6px;
@@ -94,22 +93,21 @@
                 </el-select>
               </el-col>
               <el-col :span="24" style="padding-top: 20px;">
-                <BackupRestore/> 
+                <BackupRestore/>
               </el-col>
             </el-row>
           </el-dialog>
         </el-col>
-        <el-col :span="5" >
+        <el-col :span="6" style="text-align: right">
           <el-button size="small" round @click="addNote()" class="add-note-btn"
             >+ Add Note</el-button
           >
         </el-col>
       </el-row>
 
-      <el-row v-show="!isMobile">
-        <el-col :span="12" :style="{ paddingTop: '10px' }">
+      <el-row v-if="!isDeviceMobile" style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center">
+        <el-col :span="12" style="text-align: left">
           <el-popover
-            v-show="isMobile ? false : true"
             placement="top"
             width="160"
             v-model="visible"
@@ -134,14 +132,15 @@
               icon="el-icon-delete"
               round
               size="mini"
+              :disabled="!note || !note.id"
+              :class="{'delete-btn': true, 'disabled': !note || !note.id}"
             ></el-button> </el-popover
         ></el-col>
-        <el-col :offset="6" :span="4" >
+        <el-col :span="12" style="text-align: right">
           <el-button size="small" round @click="addNote()" class="add-note-btn"
             >+ Add Note</el-button
           >
         </el-col>
-        <el-col :span="2">&nbsp;</el-col>
       </el-row>
     </div>
     <div style="margin-bottom: 10px">
@@ -221,10 +220,18 @@ export default {
       });
     },
   },
+  computed: {
+    isDeviceMobile() {
+      return this.checkIfMobile();
+    }
+  },
 
   methods: {
     addNote() {
       this.$emit("addnote");
+    },
+    checkIfMobile() {
+      return window.innerWidth <= 800;
     },
     sortNotes() {
       this.mynotes = this.mynotes.sort((a, b) => {
@@ -269,6 +276,20 @@ export default {
   },
   mounted() {
     this.sortNotes();
+
+    // Ensure isMobile is correctly set
+    this.isMobile = this.checkIfMobile();
+
+    // Add window resize event listener to update isMobile state
+    window.addEventListener('resize', () => {
+      this.isMobile = this.checkIfMobile();
+    });
+  },
+  beforeDestroy() {
+    // Clean up event listener
+    window.removeEventListener('resize', () => {
+      this.isMobile = this.checkIfMobile();
+    });
   },
   components: {
     NoteUnit,
@@ -277,4 +298,33 @@ export default {
 };
 </script>
 <style scoped>
+.el-row {
+  margin-bottom: 10px;
+}
+
+/* Button alignment styles */
+.add-note-btn {
+  margin-left: auto;
+}
+
+.delete-btn {
+  transition: opacity 0.2s;
+}
+
+.delete-btn.disabled {
+  opacity: 0.5;
+}
+
+/* Ensure proper spacing between buttons on mobile */
+@media (max-width: 768px) {
+  .el-button {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  /* Hide delete button in mobile view */
+  .delete-btn {
+    display: none !important;
+  }
+}
 </style>

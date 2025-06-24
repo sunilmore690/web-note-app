@@ -52,8 +52,11 @@ export default {
     handleDeleteNote(note) {
       this.$emit("removenote", note);
     },
+    checkIfMobile() {
+      return window.innerWidth <= 800;
+    },
     handleMouseEnter(){
-      if(!window.isMobile){
+      if(!this.checkIfMobile()){
         this.close = true;
       }
     }
@@ -118,8 +121,8 @@ export default {
 }
 
 .note-list-unit.active {
-  background-color: #e0e0e0;
-  color: #303133;
+  background-color: grey;
+  color: whitesmoke
 }
 
 .dark-mode .note-list-unit {

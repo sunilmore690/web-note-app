@@ -68,7 +68,7 @@ export default {
   },
   methods : {
     isMobile(){
-      return window.isMobile;
+      return window.innerWidth <= 800;
     },
     toggleDarkMode() {
       this.isDarkMode = !this.isDarkMode;

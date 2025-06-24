@@ -14,30 +14,29 @@
     <el-col
       :span="16"
       :xs="24"
-      v-if="isMobile"
+      v-if="isDeviceMobile"
       class="notemobile"
       :style="{ display: mode === 'view' ? 'inherit' : 'none' }"
-    >
-      <div style="padding-bottom: 5px">
-        <i
-          class="el-icon-back"
-          style="font-size: 20px; font-weight: 700"
-          @click="changeMode('list')"
-        ></i>
-
-        <div style="margin-left: 60%">
-
+    >      <div style="padding-bottom: 5px; display: flex; justify-content: space-between; align-items: center">
+        <div style="flex: 1; text-align: left;">
           <i
+            class="el-icon-back mobile-action-button"
+            style="font-size: 20px; font-weight: 700"
+            @click="changeMode('list')"
+          ></i>
+        </div>
 
+        <div style="flex: 1; display: flex; justify-content: flex-end; align-items: center;">
+          <i
             :class="`el-icon-${editMode ? 'view':'edit'}`"
             @click="editMode=!editMode"
             style="font-size: 20px; font-weight: 700; margin-right: 20px;"
+            class="mobile-action-button"
           ></i>
           <el-popover
             placement="top"
             width="160"
             v-model="visible"
-
           >
             <p>Are you sure to delete this?</p>
             <div style="text-align: right; margin: 0">
@@ -60,6 +59,7 @@
               icon="el-icon-delete"
               round
               size="mini"
+              class="mobile-action-button"
             ></el-button>
           </el-popover>
         </div>
@@ -116,12 +116,20 @@ export default {
     Note,
   },
   methods: {
+    checkIfMobile() {
+      return window.innerWidth <= 800;
+    },
     changeMode(mode) {
       this.mode = mode;
     },
     handleSetNote(note) {
       this.note = note;
       this.mode = "view";
+
+      // Default to view mode (not edit mode) in mobile view
+      if (this.isDeviceMobile) {
+        this.editMode = false;
+      }
     },
     handleAddNote() {
       var id = "id" + Math.random().toString(16).slice(2);
@@ -190,6 +198,11 @@ export default {
       localStorage.setItem("tags", JSON.stringify(this.tags));
     },
   },
+  computed: {
+    isDeviceMobile() {
+      return this.checkIfMobile();
+    }
+  },
   async mounted() {
     try {
       let notes = await getAllNotes();
@@ -202,29 +215,62 @@ export default {
       }
       this.notes = notes;
       if (this.notes.length) {
-        if (!this.isMobile) this.handleSetNote(this.notes[0]);
+        if (!this.isDeviceMobile) this.handleSetNote(this.notes[0]);
       } else {
         this.handleAddNote();
       }
+
+      // Add window resize event listener to update isMobile state
+      window.addEventListener('resize', () => {
+        this.isMobile = this.checkIfMobile();
+      });
     } catch (e) {
       this.notes = [];
     }
+  },
+  beforeDestroy() {
+    // Clean up event listener
+    window.removeEventListener('resize', () => {
+      this.isMobile = this.checkIfMobile();
+    });
   },
 };
 </script>
 <style scoped>
 .notemobile {
-  padding: 5px;
+  padding: 10px;
   position: fixed !important;
   top: 0px;
   left: 0px;
   background: var(--background-color, white);
   z-index: 400;
-  /* padding-right: 5px !important; */
   width: 100%;
+  height: 100vh;
+  overflow-y: auto;
+  box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
 }
 
 .note {
   padding-left: 10px;
+}
+
+/* Mobile view action buttons */
+.mobile-action-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 8px;
+  margin: 0 5px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.mobile-action-button:hover {
+  background-color: rgba(0,0,0,0.05);
+}
+
+.dark-mode .mobile-action-button:hover {
+  background-color: rgba(255,255,255,0.1);
 }
 </style>
