@@ -57,6 +57,9 @@
                 <i class="el-icon-moon" :class="{'active-icon': isDarkMode}"></i>
               </div>
               <el-button type="text" @click="dialogVisible = true">About Us</el-button>
+              <el-button v-if="showInstallButton" type="primary" size="small" @click="installApp" class="install-button">
+                <i class="el-icon-download"></i> Install App
+              </el-button>
             </div>
             <div class="backup-controls">
               <BackupRestore />
@@ -80,6 +83,9 @@
                 <i class="el-icon-moon mobile-icon" :class="{'active-icon': isDarkMode}"></i>
               </div>
               <el-button type="text" size="small" @click="dialogVisible = true">About Us</el-button>
+              <el-button v-if="showInstallButton" type="primary" size="mini" @click="installApp" class="install-button-mobile">
+                <i class="el-icon-download"></i>
+              </el-button>
             </div>
           </div>
         </el-col>
@@ -99,7 +105,9 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      isDarkMode: false
+      isDarkMode: false,
+      deferredPrompt: null,
+      showInstallButton: false
     };
   },
   methods : {
@@ -120,6 +128,27 @@ export default {
         document.body.classList.add('light-mode');
         document.body.classList.remove('dark-mode');
         document.body.style.backgroundColor = '#f2f2f2'; /* Updated to match theme.css */
+      }
+    },
+    installApp() {
+      // Hide the install button
+      this.showInstallButton = false;
+      
+      // Show the installation prompt
+      if (this.deferredPrompt) {
+        this.deferredPrompt.prompt();
+        
+        // Wait for the user to respond to the prompt
+        this.deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('User accepted the install prompt');
+          } else {
+            console.log('User dismissed the install prompt');
+          }
+          
+          // Clear the saved prompt since it can't be used again
+          this.deferredPrompt = null;
+        });
       }
     }
   },
@@ -147,6 +176,24 @@ export default {
         }
       });
     }
+
+    // PWA Installation
+    window.addEventListener('beforeinstallprompt', (e) => {
+      // Prevent Chrome 67 and earlier from automatically showing the prompt
+      e.preventDefault();
+      
+      // Stash the event so it can be triggered later
+      this.deferredPrompt = e;
+      
+      // Show the install button
+      this.showInstallButton = true;
+    });
+
+    // Hide the install button when the app is installed
+    window.addEventListener('appinstalled', () => {
+      console.log('App was installed');
+      this.showInstallButton = false;
+    });
   },
   components: {
     DashBoard,
@@ -321,6 +368,35 @@ body, html {
 
 .mobile-title {
   margin-right: 5px;
+}
+
+/* Install button styles */
+.install-button {
+  margin-left: 10px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+.install-button i {
+  margin-right: 5px;
+}
+
+.install-button-mobile {
+  margin-left: 5px;
+  padding: 5px 10px;
+}
+
+.dark-mode .install-button,
+.dark-mode .install-button-mobile {
+  background-color: #5696d1;
+  border-color: #5696d1;
+}
+
+.dark-mode .install-button:hover,
+.dark-mode .install-button-mobile:hover {
+  background-color: #4d85b8;
+  border-color: #4d85b8;
 }
 
 /* Mobile responsive styles */
