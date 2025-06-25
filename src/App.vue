@@ -12,10 +12,12 @@
              <li> Sort Notes By Created and Updated Date </li>
              <li> Search the notes by Title or Tag </li>
              <li> Filter the notes by tag </li>
+             <li> Rich Text Editor with formatting options </li>
+             <li> **NEW** Drawing and Canvas Support - Create sketches, diagrams, and drawings </li>
+             <li> **NEW** Mixed Content - Combine text and drawings in the same note </li>
+             <li> Auto-title generation from note content </li>
              <li> Backup and Restore your notes - Download your notes as a JSON file for backup and restore them anytime</li>
              <li> Dark and Light Mode Support </li>
-             <li> Rich Text Editor with formatting options </li>
-             <li> Auto-title generation from note content </li>
              <li> Mobile-responsive design for seamless use on any device </li>
            </ul>
            To ensure that your notes are always safe and
@@ -23,6 +25,10 @@
           all your notes as a JSON file to your device and restore them whenever
           necessary. This gives you complete control over your data and ensures your notes
           are always protected and portable. <br><br>
+
+          **NEW FEATURE**: Create beautiful drawings, sketches, and diagrams directly within your notes! 
+          Our advanced canvas editor supports free drawing, shapes, text, and full editing capabilities. 
+          You can combine text and drawings in the same note for comprehensive documentation. <br><br>
 
           NoteWapp works entirely offline - no internet connection required! Your privacy
           is our priority, and all your notes stay on your device unless you choose to
