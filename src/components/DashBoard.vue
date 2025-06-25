@@ -26,12 +26,26 @@
           ></i>
         </div>
 
+        <!-- Date/Time display when not in edit mode -->
+        <div v-if="!editMode && note.updated" style="flex: 2; text-align: center; font-size: 12px; color: #909399;">
+          <div>{{ formatDate(note.updated) }}</div>
+          <div>{{ formatTime(note.updated) }}</div>
+        </div>
+
         <div style="flex: 1; display: flex; justify-content: flex-end; align-items: center;">
           <i
-            :class="`el-icon-${editMode ? 'view':'edit'}`"
-            @click="editMode=!editMode"
+            class="el-icon-edit-outline mobile-action-button"
+            v-if="!editMode"
+            @click="editMode = true"
             style="font-size: 20px; font-weight: 700; margin-right: 20px;"
-            class="mobile-action-button"
+            title="Edit note"
+          ></i>
+          <i
+            class="el-icon-view mobile-action-button"
+            v-else
+            @click="editMode = false"
+            style="font-size: 20px; font-weight: 700; margin-right: 20px;"
+            title="View mode"
           ></i>
           <el-popover
             placement="top"
@@ -118,6 +132,24 @@ export default {
   methods: {
     checkIfMobile() {
       return window.innerWidth <= 800;
+    },
+    formatDate(date) {
+      if (!date) return '';
+      const d = new Date(date);
+      return d.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+      });
+    },
+    formatTime(date) {
+      if (!date) return '';
+      const d = new Date(date);
+      return d.toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      });
     },
     changeMode(mode) {
       this.mode = mode;

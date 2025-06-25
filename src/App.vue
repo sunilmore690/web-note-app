@@ -3,27 +3,37 @@
     <div :style="{ marginBottom: '10px'}">
       <el-dialog title="About Us" :visible.sync="dialogVisible" width="90%" >
         <p :style="{fontSize:'medium'}">
-          Welcome to the  Note App! We are a team of developers dedicated to
+          Welcome to NoteWapp! We are a team of developers dedicated to
           providing you with a user-friendly and efficient note-taking
           experience. Our app comes equipped with a variety of features to make
           your note-taking experience as smooth as possible. With our app,  <br> <br>
            <ul>
-             <li> Store Notes Offline </li>
+             <li> Store Notes Offline - Your notes are saved locally on your device </li>
              <li> Sort Notes By Created and Updated Date </li>
              <li> Search the notes by Title or Tag </li>
              <li> Filter the notes by tag </li>
-             <li> Backup and Restore your notes</li>
+             <li> Backup and Restore your notes - Download your notes as a JSON file for backup and restore them anytime</li>
+             <li> Dark and Light Mode Support </li>
+             <li> Rich Text Editor with formatting options </li>
+             <li> Auto-title generation from note content </li>
+             <li> Mobile-responsive design for seamless use on any device </li>
            </ul>
            To ensure that your notes are always safe and
-          secure, our app also offers a backup and restore function. This means
-          you can backup your notes to the cloud and restore them whenever
-          necessary, giving you peace of mind knowing that your notes are always
-          protected. <br><br>Thank you for choosing PWA Note app. We hope our app will
+          secure, our app offers a local backup and restore function. You can download
+          all your notes as a JSON file to your device and restore them whenever
+          necessary. This gives you complete control over your data and ensures your notes
+          are always protected and portable. <br><br>
+
+          NoteWapp works entirely offline - no internet connection required! Your privacy
+          is our priority, and all your notes stay on your device unless you choose to
+          create backups. <br><br>
+
+          Thank you for choosing NoteWapp. We hope our app will
           help you stay organized and productive!
 
           <br><br>
 
-          For any query , contact <a href="mailto:sunilmore690@gmail.com?subject=Note App Contact">Send an email</a>
+          For any query, contact <a href="mailto:sunilmore690@gmail.com?subject=NoteWapp - Query">Send an email</a>
 
         </p>
       </el-dialog>

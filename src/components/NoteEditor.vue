@@ -1,14 +1,14 @@
 <template>
   <el-row>
-    <div v-if="editMode">
-      <div style="margin-bottom: 10px">
+    <div v-if="editMode" style="height: calc(100vh - 80px); overflow-y: hidden; max-width: 100%; overflow-x: hidden; display: flex; flex-direction: column;">
+      <div style="margin-bottom: 10px; flex-shrink: 0;">
         <el-input
           placeholder="Title goes here ..."
           v-model="mynote.title"
           @change="saveNote"
         ></el-input>
       </div>
-      <div style="margin-bottom: 10px">
+      <div style="margin-bottom: 10px; flex-shrink: 0;">
         <el-select
           @change="saveNote"
           style="width: 100%"
@@ -32,10 +32,10 @@
         ref="editor"
         v-model="mynote.body"
         class="margin-bottom10"
-        style="height: 700px; overflow-y: auto; max-width: 100%; overflow-x: hidden;"
+        style="flex: 1; min-height: 0;"
       ></vue-editor>
     </div>
-    <div v-else style="height: 90vh; padding: 10px; overflow-y: auto; overflow-x: hidden; box-sizing: border-box; max-width: 100%;">
+    <div v-else style="height: calc(100vh - 80px); padding: 10px; overflow-y: auto; overflow-x: hidden; box-sizing: border-box; max-width: 100%;">
       <h3>{{ mynote.title }}</h3>
       <div>
         Tags:
@@ -82,9 +82,28 @@ export default {
       //   this.saveNote();
       // }
       this.mynote = Object.assign({}, this.note);
+      this.updateTitleFromBodyIfNeeded();
     },
+    'mynote.body'() {
+      this.updateTitleFromBodyIfNeeded();
+    }
   },
   methods: {
+    updateTitleFromBodyIfNeeded() {
+      // If title is empty or just "New Title", extract from body
+      if (!this.mynote.title || this.mynote.title.trim() === '' || this.mynote.title === 'New Title') {
+        if (this.mynote.body && this.mynote.body.trim() !== '') {
+          // Remove HTML tags and get first line
+          const textContent = this.mynote.body.replace(/<[^>]*>/g, '').trim();
+          const firstLine = textContent.split('\n')[0].trim();
+
+          if (firstLine && firstLine.length > 0) {
+            // Limit title length to 50 characters
+            this.mynote.title = firstLine.length > 50 ? firstLine.substring(0, 50) + '...' : firstLine;
+          }
+        }
+      }
+    },
     startSaveTimeout() {
       if (this.saveTimeout !== null) return;
       this.saveTimeout = setInterval(() => {
@@ -121,14 +140,27 @@ export default {
 }
 
 .quillWrapper {
-  overflow: unset !important;
-  height: 75vh !important;
+  overflow: hidden !important;
+  height: 100% !important;
+  max-height: 100% !important;
   max-width: 100%;
+  display: flex !important;
+  flex-direction: column !important;
 }
 
 .ql-container {
-  height: 70vh !important;
+  flex: 1 !important;
+  height: auto !important;
+  max-height: 100% !important;
   max-width: 100%;
+  overflow: hidden !important;
+}
+
+.ql-editor {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  max-height: 100% !important;
+  height: 100% !important;
 }
 
 /* Make sure editor content wraps properly */
