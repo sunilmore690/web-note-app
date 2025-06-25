@@ -231,6 +231,78 @@ export default {
   stroke: #79a9d6; /* Softer blue for active states */
 }
 
+/* Custom Scrollbar Styling */
+.ql-editor::-webkit-scrollbar {
+  width: 6px; /* Thin scrollbar */
+}
+
+.ql-editor::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ql-editor::-webkit-scrollbar-thumb {
+  background-color: rgba(144, 147, 153, 0.3);
+  border-radius: 3px;
+}
+
+.ql-editor::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(144, 147, 153, 0.5);
+}
+
+/* Dark mode scrollbar */
+.dark-mode .ql-editor::-webkit-scrollbar-thumb {
+  background-color: rgba(200, 200, 200, 0.2);
+}
+
+.dark-mode .ql-editor::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(200, 200, 200, 0.4);
+}
+
+/* Firefox scrollbar */
+.ql-editor {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(144, 147, 153, 0.3) transparent;
+}
+
+.dark-mode .ql-editor {
+  scrollbar-color: rgba(200, 200, 200, 0.2) transparent;
+}
+
+/* Apply to the view mode as well */
+[v-else]::-webkit-scrollbar {
+  width: 6px;
+}
+
+[v-else]::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+[v-else]::-webkit-scrollbar-thumb {
+  background-color: rgba(144, 147, 153, 0.3);
+  border-radius: 3px;
+}
+
+[v-else]::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(144, 147, 153, 0.5);
+}
+
+.dark-mode [v-else]::-webkit-scrollbar-thumb {
+  background-color: rgba(200, 200, 200, 0.2);
+}
+
+.dark-mode [v-else]::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(200, 200, 200, 0.4);
+}
+
+[v-else] {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(144, 147, 153, 0.3) transparent;
+}
+
+.dark-mode [v-else] {
+  scrollbar-color: rgba(200, 200, 200, 0.2) transparent;
+}
+
 /* Style the view mode in dark theme */
 .dark-mode h3 {
   color: var(--text-color);

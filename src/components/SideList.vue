@@ -361,7 +361,44 @@ export default {
   -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
   padding-right: 5px; /* Prevent content from touching the scrollbar */
   margin-bottom: 20px;
-  max-height: calc(100vh - 200px);
+  max-height: calc(100vh - 240px);
+}
+
+/* Custom Scrollbar Styling */
+.notes-scroll-container::-webkit-scrollbar {
+  width: 6px; /* Thin scrollbar */
+}
+
+.notes-scroll-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.notes-scroll-container::-webkit-scrollbar-thumb {
+  background-color: rgba(144, 147, 153, 0.3);
+  border-radius: 3px;
+}
+
+.notes-scroll-container::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(144, 147, 153, 0.5);
+}
+
+/* Dark mode scrollbar */
+.dark-mode .notes-scroll-container::-webkit-scrollbar-thumb {
+  background-color: rgba(200, 200, 200, 0.2);
+}
+
+.dark-mode .notes-scroll-container::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(200, 200, 200, 0.4);
+}
+
+/* Firefox scrollbar */
+.notes-scroll-container {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(144, 147, 153, 0.3) transparent;
+}
+
+.dark-mode .notes-scroll-container {
+  scrollbar-color: rgba(200, 200, 200, 0.2) transparent;
 }
 
 /* Mobile-specific adjustments */

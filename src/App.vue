@@ -373,4 +373,41 @@ body, html {
     display: none !important;
   }
 }
+
+/* Global Custom Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 6px; /* Thin scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(144, 147, 153, 0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(144, 147, 153, 0.5);
+}
+
+/* Dark mode scrollbar */
+.dark-mode ::-webkit-scrollbar-thumb {
+  background-color: rgba(200, 200, 200, 0.2);
+}
+
+.dark-mode ::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(200, 200, 200, 0.4);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(144, 147, 153, 0.3) transparent;
+}
+
+.dark-mode * {
+  scrollbar-color: rgba(200, 200, 200, 0.2) transparent;
+}
 </style>
