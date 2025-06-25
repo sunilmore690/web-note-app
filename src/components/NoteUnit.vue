@@ -120,11 +120,13 @@ export default {
   border: none;
   margin-bottom: 5px;
   width: 100%;
+  transition: all 0.2s ease;
 }
 
 .note-list-unit.active {
-  background-color: grey;
-  color: whitesmoke
+  background-color: #e1e1e1;
+  color: #333;
+  border-right: 3px solid #409EFF;
 }
 
 .dark-mode .note-list-unit {
@@ -134,8 +136,9 @@ export default {
 }
 
 .dark-mode .note-list-unit.active {
-  background: #3a3a3a; /* Lighter than #444444 for less contrast */
-  color: #d4d4d4; /* Softer white color */
+  background: #4d4d4d; /* More distinct background color for dark mode */
+  color: #e8e8e8;
+  border-right: 3px solid #5696d1; /* Blue accent for better visibility */
 }
 
 @media (max-width: 768px) {

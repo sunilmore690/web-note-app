@@ -119,7 +119,7 @@ export default {
       } else {
         document.body.classList.add('light-mode');
         document.body.classList.remove('dark-mode');
-        document.body.style.backgroundColor = '#e4e4e461';
+        document.body.style.backgroundColor = '#f2f2f2'; /* Updated to match theme.css */
       }
     }
   },
