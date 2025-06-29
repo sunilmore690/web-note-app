@@ -203,8 +203,14 @@ export default {
     };
   },
   watch: {
-    notes() {
-      this.mynotes = this.notes;
+    notes: {
+      handler: function(newNotes) {
+        this.mynotes = newNotes;
+        if (newNotes && newNotes.length > 0) {
+          this.sortNotes();
+        }
+      },
+      deep: true
     },
     sortBy() {
       this.sortNotes();
@@ -239,24 +245,30 @@ export default {
       return window.innerWidth <= 800;
     },
     sortNotes() {
-      this.mynotes = this.mynotes.sort((a, b) => {
-        a.created = a.created ? new Date(a.created) : new Date();
-        a.updated = a.updated ? new Date(a.updated) : new Date();
-        b.updated = b.updated ? new Date(b.updated) : new Date();
-        b.created = b.created ? new Date(b.created) : new Date();
+      if (!this.mynotes || this.mynotes.length === 0) return;
+
+      console.log('Sorting notes with option:', this.sortBy);
+
+      this.mynotes = [...this.mynotes].sort((a, b) => {
+        // Ensure we have date objects
+        const aCreated = a.created ? new Date(a.created) : new Date();
+        const aUpdated = a.updated ? new Date(a.updated) : new Date();
+        const bCreated = b.created ? new Date(b.created) : new Date();
+        const bUpdated = b.updated ? new Date(b.updated) : new Date();
+
         if (this.sortBy === "createdAsc") {
-          return a.created.getTime() - b.created.getTime();
+          return aCreated.getTime() - bCreated.getTime();
         }
         if (this.sortBy === "createdDesc") {
-          return b.created.getTime() - a.created.getTime();
+          return bCreated.getTime() - aCreated.getTime();
         }
         if (this.sortBy === "updatedAsc") {
-          return a.updated.getTime() - b.updated.getTime();
+          return aUpdated.getTime() - bUpdated.getTime();
         }
         if (this.sortBy === "updatedDesc") {
-          return b.updated.getTime() - a.updated.getTime();
+          return bUpdated.getTime() - aUpdated.getTime();
         }
-        return a.title;
+        return 0; // Default case
       });
     },
     setNote(note) {
